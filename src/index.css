@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Sora', system-ui, sans-serif;
+
+  /* Core palette */
+  --color-blue:        #1B6FDB;
+  --color-blue-light:  #3B87F0;
+  --color-blue-pale:   #EBF3FF;
+  --color-blue-mid:    #C4DAFB;
+  --color-navy:        #0D1F3C;
+  --color-navy-mid:    #1A3260;
+
+  --color-white:       #FFFFFF;
+  --color-off-white:   #F8FAFF;
+  --color-surface:     #F1F5FD;
+
+  --color-ink:         #0D1F3C;
+  --color-ink-mid:     #2E4068;
+  --color-ink-muted:   #5A6A85;
+  --color-ink-faint:   #8FA0BA;
+
+  --color-border:      #E2EAF5;
+  --color-border-mid:  #C4D4EC;
+
+  --color-accent:      #F57C2B;   /* orange — urgency/CTA accent */
+  --color-accent-pale: #FEF0E4;
+
+  --color-green:       #16A34A;
+  --color-green-pale:  #DCFCE7;
+
+  --color-red:         #DC2626;
+  --color-red-pale:    #FEE2E2;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  background: #fff;
+  color: var(--color-ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #1B6FDB;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+::selection { background: #C4DAFB; color: #0D1F3C; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f1f5fd; }
+::-webkit-scrollbar-thumb { background: #c4d4ec; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #1B6FDB; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: 1; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
