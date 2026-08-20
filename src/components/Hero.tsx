@@ -1,114 +1,231 @@
-import { Phone, ArrowRight, Shield, Clock, Star } from 'lucide-react';
-import { scrollTo } from '../lib/utils';
+import { useState } from 'react';
+import { MapPin, Wrench, Clock, Search } from 'lucide-react';
 
-const PHONE = '(555) 123-4567';
-const PHONE_HREF = 'tel:+15551234567';
+function goTo(anchor: string) {
+  const el = document.querySelector(anchor);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
+}
 
-const badges = [
-  { icon: Shield, label: 'Licensed & Insured' },
-  { icon: Clock, label: '24/7 Emergency Service' },
-  { icon: Star, label: 'Highly Rated' },
+const SERVICE_TYPES = ['Any Service', 'Emergency Plumbing', 'Drain Cleaning', 'Leak Detection', 'Water Heater', 'Pipe Repair', 'Bathroom & Kitchen', 'Sewer Line', 'Commercial'];
+const URGENCY = ['Any Time', 'Emergency – Now', 'Today', 'Scheduled'];
+
+const STATS = [
+  { num: '500', plus: true,  label: 'Jobs Completed'   },
+  { num: '4.9', star: true,  label: 'Customer Rating'   },
+  { num: '24/7', plus: false, label: 'Emergency Line'   },
 ];
 
 export default function Hero() {
+  const [location, setLocation] = useState('');
+  const [service,  setService]  = useState('Any Service');
+  const [urgency,  setUrgency]  = useState('Any Time');
+
   return (
+    /* ── Hero wrapper — sky-blue bg exactly like reference ── */
     <section
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      aria-label="Hero — FlowRight Plumbing"
+      style={{ background: '#D5E9F6', position: 'relative', paddingTop: 64, overflow: 'hidden', minHeight: 520 }}
+      aria-label="Hero"
     >
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=1920&q=85&auto=format&fit=crop"
-          alt=""
-          className="w-full h-full object-cover"
-          aria-hidden="true"
-          fetchPriority="high"
-        />
-        {/* layered overlays — keeps background identifiable but readable */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D1F3C]/88 via-[#0D1F3C]/65 to-[#0D1F3C]/25" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1F3C]/60 via-transparent to-transparent" aria-hidden="true" />
-      </div>
+      <div style={{
+        maxWidth: 1160, margin: '0 auto', padding: '0 28px',
+        display: 'grid', gridTemplateColumns: '1fr 480px',
+        minHeight: 456, alignItems: 'stretch', position: 'relative',
+      }} className="hero-layout">
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-5 lg:px-10 w-full pt-24 pb-20 lg:pt-32 lg:pb-28">
-        <div className="max-w-2xl">
+        {/* ── LEFT: text content ── */}
+        <div style={{ paddingTop: 52, paddingBottom: 112, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
-          {/* Emergency badge */}
-          <div
-            className="inline-flex items-center gap-2 bg-[#F57C2B]/15 border border-[#F57C2B]/40 rounded-full px-4 py-2 mb-7"
-            style={{ animation: 'fadeInUp 0.5s ease 0.1s both' }}
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F57C2B] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#F57C2B]"></span>
-            </span>
-            <span className="text-[#F57C2B] text-[12px] font-semibold tracking-wide">
-              24/7 Emergency Service Available
-            </span>
-          </div>
-
-          {/* Headline */}
-          <h1
-            className="font-display font-bold text-white leading-[1.05] mb-5"
-            style={{
-              fontSize: 'clamp(2.6rem, 6vw, 4.4rem)',
-              animation: 'fadeInUp 0.6s ease 0.2s both',
-            }}
-          >
-            Reliable Plumbing.<br />
-            <span className="text-[#5BA8FF]">Done Right.</span>
+          {/* Headline — weight 800, tight tracking, exactly like reference */}
+          <h1 style={{
+            fontSize: 'clamp(2.8rem, 5.5vw, 4rem)',
+            fontWeight: 800,
+            color: '#0A0A0A',
+            lineHeight: 1.06,
+            letterSpacing: '-1.5px',
+            marginBottom: 18,
+            animation: 'fadeInUp .5s ease .05s both',
+          }}>
+            Reliable Plumbing.<br />Done Right.
           </h1>
 
-          {/* Sub */}
-          <p
-            className="text-white/70 text-lg lg:text-xl leading-relaxed mb-9"
-            style={{ animation: 'fadeInUp 0.6s ease 0.35s both' }}
-          >
-            From emergency repairs to installations and maintenance, we provide dependable plumbing solutions for homes and businesses.
+          {/* Sub — small grey, 2 lines max */}
+          <p style={{
+            fontSize: 15, color: '#555', lineHeight: 1.7,
+            maxWidth: 380, marginBottom: 36,
+            animation: 'fadeInUp .5s ease .18s both',
+          }}>
+            From emergency repairs to full installations, we provide dependable plumbing solutions for homes and businesses.
           </p>
 
-          {/* CTAs */}
-          <div
-            className="flex flex-col sm:flex-row gap-3 mb-10"
-            style={{ animation: 'fadeInUp 0.6s ease 0.5s both' }}
-          >
+          {/* CTA — solid black, ZERO border-radius (reference exact) */}
+          <div style={{ animation: 'fadeInUp .5s ease .3s both' }}>
             <button
-              onClick={() => scrollTo('#contact')}
-              className="group inline-flex items-center justify-center gap-2.5 bg-[#F57C2B] text-white font-semibold px-7 py-4 rounded-xl text-[15px] hover:bg-[#E06820] transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F57C2B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0D1F3C] shadow-[0_4px_20px_rgba(245,124,43,0.45)]"
+              onClick={() => goTo('#contact')}
+              style={{
+                background: '#0A0A0A', color: '#fff',
+                fontSize: 14, fontWeight: 700,
+                padding: '14px 32px',
+                border: 'none', borderRadius: 0,
+                cursor: 'pointer', letterSpacing: '.01em',
+                transition: 'background .15s',
+                display: 'inline-block',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#1B6FDB')}
+              onMouseLeave={e => (e.currentTarget.style.background = '#0A0A0A')}
             >
-              Book a Service
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              Get Started
             </button>
-            <a
-              href={PHONE_HREF}
-              className="inline-flex items-center justify-center gap-2.5 bg-white/12 backdrop-blur-sm border border-white/25 text-white font-semibold px-7 py-4 rounded-xl text-[15px] hover:bg-white/20 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <Phone size={16} aria-hidden="true" />
-              Call Now — {PHONE}
-            </a>
           </div>
 
-          {/* Trust badges */}
-          <div
-            className="flex flex-wrap gap-4"
-            style={{ animation: 'fadeInUp 0.6s ease 0.65s both' }}
-          >
-            {badges.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2 text-white/65 text-[13px]">
-                <Icon size={14} className="text-[#5BA8FF]" aria-hidden="true" />
-                {label}
+          {/* Stats row — "1200 +" style from reference */}
+          <div style={{
+            display: 'flex', gap: 48, marginTop: 44,
+            animation: 'fadeInUp .5s ease .42s both',
+          }}>
+            {STATS.map(s => (
+              <div key={s.label}>
+                <p style={{ fontSize: 28, fontWeight: 800, color: '#0A0A0A', lineHeight: 1, marginBottom: 5 }}>
+                  {s.num}
+                  {s.plus && <span style={{ color: '#1B6FDB', fontWeight: 800 }}> +</span>}
+                  {s.star && <span style={{ color: '#1B6FDB', fontWeight: 800 }}>★</span>}
+                </p>
+                <p style={{ fontSize: 12, color: '#666', fontWeight: 400, letterSpacing: '.01em' }}>{s.label}</p>
               </div>
             ))}
           </div>
         </div>
+
+        {/* ── RIGHT: photo — bleeds to right edge, no container ── */}
+        <div
+          style={{ position: 'relative', overflow: 'hidden' }}
+          className="hero-photo"
+          aria-hidden="true"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=960&q=88&auto=format&fit=crop"
+            alt=""
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center top',
+              display: 'block',
+            }}
+            fetchPriority="high"
+          />
+          {/* Soft left blend */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to right, #D5E9F6 0%, #D5E9F6 2%, transparent 28%)',
+          }} />
+        </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-white/35 hidden lg:flex" aria-hidden="true">
-        <span className="text-[10px] tracking-[0.15em] uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent" />
+      {/* ── Search card — white, overlaps hero bottom, full-width ── */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 28px' }}>
+          <div style={{
+            background: '#fff',
+            boxShadow: '0 8px 48px rgba(0,0,0,.14)',
+            padding: '26px 28px 30px',
+          }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#111', marginBottom: 18, letterSpacing: '-.1px' }}>
+              Search for available services
+            </p>
+
+            <form
+              onSubmit={e => { e.preventDefault(); goTo('#contact'); }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: 12, alignItems: 'stretch' }}
+              className="search-form"
+            >
+              {/* Location */}
+              <div style={{ position: 'relative' }}>
+                <label htmlFor="s-loc" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>Location</label>
+                <MapPin size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', pointerEvents: 'none' }} />
+                <input
+                  id="s-loc" type="text" placeholder="Location"
+                  value={location} onChange={e => setLocation(e.target.value)}
+                  style={{
+                    width: '100%', padding: '11px 12px 11px 34px',
+                    border: '1px solid #DEDEDE', borderRadius: 0,
+                    fontSize: 13, color: '#111', outline: 'none', fontFamily: 'inherit',
+                    transition: 'border-color .15s',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#1B6FDB')}
+                  onBlur={e  => (e.target.style.borderColor = '#DEDEDE')}
+                />
+              </div>
+
+              {/* Service type */}
+              <div style={{ position: 'relative' }}>
+                <label htmlFor="s-type" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>Service type</label>
+                <Wrench size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', pointerEvents: 'none' }} />
+                <select
+                  id="s-type" value={service} onChange={e => setService(e.target.value)}
+                  style={{
+                    width: '100%', padding: '11px 12px 11px 34px',
+                    border: '1px solid #DEDEDE', borderRadius: 0,
+                    fontSize: 13, color: '#111', outline: 'none',
+                    appearance: 'none', background: '#fff', cursor: 'pointer', fontFamily: 'inherit',
+                    transition: 'border-color .15s',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#1B6FDB')}
+                  onBlur={e  => (e.target.style.borderColor = '#DEDEDE')}
+                >
+                  {SERVICE_TYPES.map(t => <option key={t}>{t}</option>)}
+                </select>
+              </div>
+
+              {/* Urgency */}
+              <div style={{ position: 'relative' }}>
+                <label htmlFor="s-urg" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>Urgency</label>
+                <Clock size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#aaa', pointerEvents: 'none' }} />
+                <select
+                  id="s-urg" value={urgency} onChange={e => setUrgency(e.target.value)}
+                  style={{
+                    width: '100%', padding: '11px 12px 11px 34px',
+                    border: '1px solid #DEDEDE', borderRadius: 0,
+                    fontSize: 13, color: '#111', outline: 'none',
+                    appearance: 'none', background: '#fff', cursor: 'pointer', fontFamily: 'inherit',
+                    transition: 'border-color .15s',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#1B6FDB')}
+                  onBlur={e  => (e.target.style.borderColor = '#DEDEDE')}
+                >
+                  {URGENCY.map(t => <option key={t}>{t}</option>)}
+                </select>
+              </div>
+
+              {/* Search Now — solid black, sharp corners */}
+              <button
+                type="submit"
+                style={{
+                  background: '#0A0A0A', color: '#fff',
+                  border: 'none', borderRadius: 0,
+                  fontSize: 14, fontWeight: 700,
+                  padding: '11px 28px',
+                  cursor: 'pointer', whiteSpace: 'nowrap',
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  transition: 'background .15s',
+                  letterSpacing: '.01em',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#1B6FDB')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#0A0A0A')}
+              >
+                <Search size={14} />
+                Search Now
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .hero-layout { grid-template-columns: 1fr !important; }
+          .hero-photo  { display: none !important; }
+          .search-form { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </section>
   );
 }

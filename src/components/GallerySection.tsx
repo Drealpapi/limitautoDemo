@@ -1,72 +1,60 @@
 import { useState } from 'react';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import SectionHeading from './SectionHeading';
 import { galleryItems, categories } from '../data/gallery';
+import { ArrowRight } from 'lucide-react';
 
-function GalleryCard({ item, index }: { item: typeof galleryItems[0]; index: number }) {
-  const [ref, visible] = useIntersectionObserver({ threshold: 0.08 });
-
-  return (
-    <div
-      ref={ref as React.RefObject<HTMLDivElement>}
-      className={[
-        'group relative rounded-2xl overflow-hidden bg-[#EBF3FF] transition-all duration-700',
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
-      ].join(' ')}
-      style={{ transitionDelay: `${index * 60}ms`, aspectRatio: '4/3' }}
-    >
-      <img
-        src={item.image}
-        alt={item.title}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-        loading="lazy"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0D1F3C]/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-        <span className="text-[10px] font-semibold text-[#5BA8FF] tracking-widest uppercase">{item.category}</span>
-        <p className="text-white text-sm font-semibold leading-snug mt-0.5">{item.title}</p>
-      </div>
-    </div>
-  );
+function scrollTo(id: string) {
+  const el = document.querySelector(id);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
 }
 
 export default function GallerySection() {
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [active, setActive] = useState('All');
+  const [hovered, setHovered] = useState<string | null>(null);
 
-  const filtered = activeCategory === 'All'
-    ? galleryItems
-    : galleryItems.filter((g) => g.category === activeCategory);
+  const filtered = active === 'All' ? galleryItems : galleryItems.filter(g => g.category === active);
 
   return (
-    <section
-      id="gallery"
-      className="py-16 lg:py-24 bg-[#F1F5FD]"
-      aria-labelledby="gallery-heading"
-    >
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <SectionHeading
-            eyebrow="Our Work"
-            title="Projects We're Proud Of"
-            subtitle="A sample of recent residential and commercial plumbing jobs — real work, real results."
-            align="center"
-            id="gallery-heading"
-          />
+    <section id="gallery" style={{ background: '#fff', padding: '80px 0' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+
+        {/* Header row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+          <div style={{ width: 32, height: 2, background: '#111' }} />
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#999', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            Our Work
+          </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', fontWeight: 800, color: '#111', lineHeight: 1.1, letterSpacing: '-0.5px' }}>
+            Projects We're Proud Of
+          </h2>
+          <button
+            onClick={() => scrollTo('#contact')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 500, color: '#111' }}
+          >
+            Book a Service <ArrowRight size={15} />
+          </button>
         </div>
 
-        {/* Filter tabs */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8" role="group" aria-label="Filter by category">
-          {categories.map((cat) => (
+        {/* Filter pills */}
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 28 }}>
+          {categories.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
-              aria-pressed={activeCategory === cat}
-              className={[
-                'text-[13px] font-medium px-4 py-2 rounded-xl transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]',
-                activeCategory === cat
-                  ? 'bg-[#1B6FDB] text-white shadow-[0_2px_10px_rgba(27,111,219,0.3)]'
-                  : 'bg-white text-[#5A6A85] border border-[#E2EAF5] hover:border-[#C4DAFB] hover:text-[#1B6FDB]',
-              ].join(' ')}
+              onClick={() => setActive(cat)}
+              style={{
+                background: active === cat ? '#111' : '#F5F5F5',
+                color: active === cat ? '#fff' : '#555',
+                border: 'none',
+                fontSize: 12, fontWeight: 600,
+                padding: '8px 16px',
+                borderRadius: 0, cursor: 'pointer',
+                letterSpacing: '0.02em',
+                transition: 'background 0.15s, color 0.15s',
+              }}
             >
               {cat}
             </button>
@@ -74,12 +62,46 @@ export default function GallerySection() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }} className="gallery-grid">
           {filtered.map((item, i) => (
-            <GalleryCard key={item.id} item={item} index={i} />
+            <div
+              key={item.id}
+              style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden', cursor: 'pointer' }}
+              onMouseEnter={() => setHovered(item.id)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                style={{
+                  width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                  transform: hovered === item.id ? 'scale(1.05)' : 'scale(1)',
+                  transition: 'transform 0.4s',
+                }}
+                loading={i < 3 ? 'eager' : 'lazy'}
+              />
+              {/* Label overlay — always visible at bottom */}
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
+                padding: '32px 16px 14px',
+                transform: hovered === item.id ? 'translateY(0)' : 'translateY(4px)',
+                transition: 'transform 0.3s',
+              }}>
+                <span style={{ fontSize: 10, fontWeight: 700, color: '#7DB8F5', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: 3 }}>
+                  {item.category}
+                </span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>{item.title}</span>
+              </div>
+            </div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2,1fr) !important; } }
+        @media (max-width: 480px) { .gallery-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
   );
 }

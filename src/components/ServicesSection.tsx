@@ -1,123 +1,190 @@
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import SectionHeading from './SectionHeading';
+import { useState } from 'react';
+import { MapPin, ArrowRight } from 'lucide-react';
 import { services } from '../data/services';
-import {
-  AlertTriangle, Waves, Droplets, Flame,
-  Wrench, ShowerHead, ArrowDownToLine, Building2,
-  CheckCircle2, ArrowRight,
-} from 'lucide-react';
-import { scrollTo } from '../lib/utils';
 
-const iconMap: Record<string, React.ElementType> = {
-  AlertTriangle, Waves, Droplets, Flame,
-  Wrench, ShowerHead, ArrowDownToLine, Building2,
-};
-
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
-  const [ref, visible] = useIntersectionObserver({ threshold: 0.08 });
-  const Icon = iconMap[service.icon] ?? Wrench;
-
-  return (
-    <article
-      ref={ref as React.RefObject<HTMLElement>}
-      className={[
-        'group bg-white rounded-2xl overflow-hidden border transition-all duration-300',
-        service.emergency
-          ? 'border-[#F57C2B]/30 hover:border-[#F57C2B]/60 hover:shadow-[0_8px_32px_rgba(245,124,43,0.12)]'
-          : 'border-[#E2EAF5] hover:border-[#C4D4EC] hover:shadow-[0_8px_32px_rgba(13,31,60,0.09)]',
-        'transition-all duration-700',
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
-      ].join(' ')}
-      style={{ transitionDelay: `${index * 70}ms` }}
-    >
-      {/* Image */}
-      <div className="relative h-44 overflow-hidden bg-[#EBF3FF]">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D1F3C]/50 to-transparent" aria-hidden="true" />
-
-        {/* Icon badge */}
-        <div className={`absolute top-3 left-3 w-10 h-10 rounded-xl flex items-center justify-center ${service.emergency ? 'bg-[#F57C2B]' : 'bg-[#1B6FDB]'} shadow-lg`}>
-          <Icon size={18} className="text-white" aria-hidden="true" />
-        </div>
-
-        {service.emergency && (
-          <div className="absolute top-3 right-3">
-            <span className="text-[10px] font-bold text-white bg-[#F57C2B] px-2.5 py-1 rounded-lg tracking-wide">
-              24/7
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Content */}
-      <div className="p-5 lg:p-6">
-        <h3 className="font-display font-bold text-[#0D1F3C] text-lg mb-2 leading-snug">
-          {service.title}
-        </h3>
-        <p className="text-[#5A6A85] text-sm leading-relaxed mb-4">{service.shortDesc}</p>
-
-        <ul className="flex flex-col gap-1.5 mb-5" role="list">
-          {service.bullets.slice(0, 3).map((b) => (
-            <li key={b} className="flex items-start gap-2 text-[12.5px] text-[#2E4068]">
-              <CheckCircle2 size={13} className="text-[#1B6FDB] flex-shrink-0 mt-0.5" aria-hidden="true" />
-              {b}
-            </li>
-          ))}
-        </ul>
-
-        <button
-          onClick={() => scrollTo('#contact')}
-          className={[
-            'group/btn flex items-center gap-1.5 text-[13px] font-semibold transition-colors cursor-pointer focus-visible:outline-none',
-            service.emergency
-              ? 'text-[#F57C2B] hover:text-[#E06820]'
-              : 'text-[#1B6FDB] hover:text-[#1560C0]',
-          ].join(' ')}
-        >
-          Get a Quote
-          <ArrowRight size={13} className="transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
-        </button>
-      </div>
-    </article>
-  );
+function goTo(anchor: string) {
+  const el = document.querySelector(anchor);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
 }
 
+/* Plumbing equivalents of the "4 Bed / 10x10m / 1600m" spec row */
+const SPECS: Record<string, { icon: string; text: string }[]> = {
+  'emergency':        [{ icon: '⚡', text: '24/7' },        { icon: '🔧', text: 'Any issue' },    { icon: '⏱', text: 'Fast response' }],
+  'drain-cleaning':   [{ icon: '🌀', text: 'Hydro-jet' },   { icon: '📷', text: 'Camera' },       { icon: '✅', text: 'Guaranteed' }],
+  'leak-detection':   [{ icon: '🔍', text: 'Non-invasive' },{ icon: '💧', text: 'Slab leaks' },   { icon: '🔧', text: 'Full repair' }],
+  'water-heater':     [{ icon: '🔥', text: 'Tank/Tankless' },{ icon: '⚡', text: 'Gas/Electric' },{ icon: '📅', text: 'Same day' }],
+  'pipe-repair':      [{ icon: '🔩', text: 'Copper/PEX' },  { icon: '🏠', text: 'Full repipe' },  { icon: '🛡', text: 'Warrantied' }],
+  'bathroom-kitchen': [{ icon: '🚿', text: 'Fixtures' },    { icon: '🍽', text: 'Kitchen' },      { icon: '🔧', text: 'Remodel' }],
+  'sewer-line':       [{ icon: '📷', text: 'Inspection' },  { icon: '💦', text: 'Hydro-jet' },    { icon: '🚫', text: 'Root removal' }],
+  'commercial':       [{ icon: '🏢', text: 'All sizes' },   { icon: '📋', text: 'Contracted' },   { icon: '⚡', text: 'Priority' }],
+};
+
+const PRICE: Record<string, string> = {
+  'emergency':        'Free Call-Out',
+  'drain-cleaning':   'From $149',
+  'leak-detection':   'From $199',
+  'water-heater':     'From $299',
+  'pipe-repair':      'Free Quote',
+  'bathroom-kitchen': 'Free Quote',
+  'sewer-line':       'From $249',
+  'commercial':       'Custom Quote',
+};
+
 export default function ServicesSection() {
+  const [hovered, setHovered] = useState<string | null>(null);
+
   return (
-    <section
-      id="services"
-      className="py-16 lg:py-24 bg-[#F1F5FD]"
-      aria-labelledby="services-heading"
-    >
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-          <div className="max-w-xl">
-            <SectionHeading
-              eyebrow="What We Do"
-              title="Complete Plumbing Services"
-              subtitle="From routine maintenance to urgent repairs — our licensed plumbers handle it all, for homes and businesses."
-              id="services-heading"
-            />
+    <section id="services" style={{ background: '#0A0A0A', padding: '72px 0 80px' }}>
+      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 28px' }}>
+
+        {/* ── Header row: eyebrow + heading + "Explore All →" — exact reference ── */}
+        <div style={{ marginBottom: 40 }}>
+          {/* "— POPULAR" eyebrow */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+            <div style={{ width: 36, height: 2, background: '#fff' }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#888', letterSpacing: '.2em', textTransform: 'uppercase' }}>
+              Our Services
+            </span>
           </div>
-          <button
-            onClick={() => scrollTo('#contact')}
-            className="inline-flex items-center gap-2 text-[13.5px] font-semibold text-[#1B6FDB] hover:text-[#1560C0] transition-colors cursor-pointer focus-visible:outline-none whitespace-nowrap"
-          >
-            Request Any Service <ArrowRight size={14} aria-hidden="true" />
-          </button>
+
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
+            <h2 style={{
+              fontSize: 'clamp(1.9rem, 3.5vw, 2.8rem)',
+              fontWeight: 800, color: '#fff',
+              lineHeight: 1.08, letterSpacing: '-1px',
+            }}>
+              Complete Plumbing Services
+            </h2>
+
+            {/* "Explore All →" — reference style */}
+            <button
+              onClick={() => goTo('#contact')}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 8,
+                fontSize: 14, fontWeight: 500, color: '#fff',
+                whiteSpace: 'nowrap', paddingBottom: 6, opacity: 0.8,
+                transition: 'opacity .15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.8')}
+            >
+              Request Any Service <ArrowRight size={15} />
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {services.map((s, i) => (
-            <ServiceCard key={s.id} service={s} index={i} />
-          ))}
+        {/* ── Cards grid — 4 columns (all 8 services) ── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: 16,
+        }} className="svc-grid">
+          {services.map(s => {
+            const specs = SPECS[s.id] ?? [];
+            const price = PRICE[s.id]  ?? 'Free Quote';
+            const isHov = hovered === s.id;
+
+            return (
+              <article
+                key={s.id}
+                onMouseEnter={() => setHovered(s.id)}
+                onMouseLeave={() => setHovered(null)}
+                style={{
+                  background: '#fff',
+                  display: 'flex', flexDirection: 'column',
+                  overflow: 'hidden',
+                  transform: isHov ? 'translateY(-5px)' : 'translateY(0)',
+                  boxShadow: isHov ? '0 16px 48px rgba(0,0,0,.35)' : '0 2px 8px rgba(0,0,0,.2)',
+                  transition: 'transform .22s ease, box-shadow .22s ease',
+                  cursor: 'default',
+                }}
+              >
+                {/* ── Image — portrait-ish ratio like reference ── */}
+                <div style={{ position: 'relative', height: 180, overflow: 'hidden', flexShrink: 0 }}>
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    loading="lazy"
+                    style={{
+                      width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                      transform: isHov ? 'scale(1.06)' : 'scale(1)',
+                      transition: 'transform .45s ease',
+                    }}
+                  />
+                  {s.emergency && (
+                    <div style={{
+                      position: 'absolute', top: 10, right: 10,
+                      background: '#F57C2B', color: '#fff',
+                      fontSize: 9, fontWeight: 800,
+                      padding: '4px 8px', letterSpacing: '.12em', textTransform: 'uppercase',
+                    }}>24/7</div>
+                  )}
+                </div>
+
+                {/* ── Card body ── */}
+                <div style={{ padding: '14px 14px 18px', flex: 1, display: 'flex', flexDirection: 'column', gap: 0 }}>
+
+                  {/* Location-pin row — mirrors "📍 Banana Island, Lagos" */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+                    <MapPin size={13} style={{ color: '#1B6FDB', flexShrink: 0 }} />
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.2 }}>
+                      {s.title}
+                    </span>
+                  </div>
+
+                  {/* Spec row — mirrors "🛏 4 Bed  📐 10×10m  📏 1600m" */}
+                  <div style={{
+                    display: 'flex', gap: 12, flexWrap: 'wrap',
+                    paddingBottom: 12, marginBottom: 12,
+                    borderBottom: '1px solid #F0F0F0',
+                  }}>
+                    {specs.map(sp => (
+                      <div key={sp.text} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ fontSize: 11 }}>{sp.icon}</span>
+                        <span style={{ fontSize: 11, color: '#777', lineHeight: 1 }}>{sp.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* ── Bottom row: "Book Now" + price — EXACT reference ── */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
+                    <button
+                      onClick={() => goTo('#contact')}
+                      style={{
+                        background: '#0A0A0A', color: '#fff',
+                        fontSize: 11, fontWeight: 800,
+                        padding: '9px 16px',
+                        border: 'none', borderRadius: 0,
+                        cursor: 'pointer', letterSpacing: '.04em',
+                        textTransform: 'uppercase',
+                        transition: 'background .15s',
+                        lineHeight: 1,
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#1B6FDB')}
+                      onMouseLeave={e => (e.currentTarget.style.background = '#0A0A0A')}
+                    >
+                      Book Now
+                    </button>
+                    <span style={{
+                      fontSize: 12, fontWeight: 800, color: '#111',
+                      letterSpacing: '-.2px', lineHeight: 1,
+                    }}>
+                      {price}
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(3,1fr) !important; } }
+        @media (max-width: 768px)  { .svc-grid { grid-template-columns: repeat(2,1fr) !important; } }
+        @media (max-width: 480px)  { .svc-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
   );
 }

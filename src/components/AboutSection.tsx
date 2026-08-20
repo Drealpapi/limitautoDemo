@@ -1,111 +1,141 @@
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import SectionHeading from './SectionHeading';
-import { CheckCircle2, Phone } from 'lucide-react';
-import { scrollTo } from '../lib/utils';
+import { CheckCircle, Phone } from 'lucide-react';
 
 const PHONE = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 
 const commitments = [
-  'We show up on time and work cleanly',
-  'We explain what\'s wrong before we start',
-  'We price fairly and transparently',
-  'We clean up completely before leaving',
-  'We stand behind all our work',
-  'We treat your home with respect',
+  'Show up on time, every time',
+  'Explain the problem before starting work',
+  'Provide upfront pricing — no surprises',
+  'Clean up completely after the job',
+  'Stand behind every repair we do',
+  'Treat your home with respect',
 ];
 
-export default function AboutSection() {
-  const [imgRef, imgVisible] = useIntersectionObserver({ threshold: 0.1 });
-  const [textRef, textVisible] = useIntersectionObserver({ threshold: 0.1 });
+function scrollTo(id: string) {
+  const el = document.querySelector(id);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
 
+export default function AboutSection() {
   return (
-    <section
-      id="about"
-      className="py-16 lg:py-24 bg-[#F1F5FD]"
-      aria-labelledby="about-heading"
-    >
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Image side */}
-          <div
-            ref={imgRef as React.RefObject<HTMLDivElement>}
-            className={[
-              'relative transition-all duration-700 order-2 lg:order-1',
-              imgVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8',
-            ].join(' ')}
-          >
-            <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
-              <img
-                src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80&auto=format&fit=crop"
-                alt="FlowRight plumber at work installing a water heater"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              {/* Stat callout */}
-              <div className="absolute top-5 right-5 bg-[#1B6FDB] text-white rounded-2xl px-5 py-4 shadow-[0_4px_20px_rgba(27,111,219,0.4)]">
-                <p className="text-2xl font-bold leading-none mb-1">[X]+</p>
-                <p className="text-[11px] text-white/75 font-medium">Years Serving<br />Our Community</p>
-              </div>
+    <section id="about" style={{ background: '#F7F9FC', padding: '80px 0' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'center' }} className="about-grid">
+
+          {/* Left: images stacked */}
+          <div style={{ position: 'relative' }}>
+            <img
+              src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80&auto=format&fit=crop"
+              alt="FlowRight plumber installing water heater"
+              style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
+              loading="lazy"
+            />
+            {/* Stat badge */}
+            <div style={{
+              position: 'absolute', top: 20, right: 20,
+              background: '#1B6FDB', color: '#fff',
+              padding: '16px 20px',
+              boxShadow: '0 4px 20px rgba(27,111,219,0.4)',
+            }}>
+              <p style={{ fontSize: 28, fontWeight: 800, lineHeight: 1, marginBottom: 4 }}>500+</p>
+              <p style={{ fontSize: 11, fontWeight: 500, opacity: 0.8 }}>Jobs Completed</p>
             </div>
-            {/* Second image */}
-            <div className="absolute -bottom-5 -left-5 w-40 h-28 rounded-2xl overflow-hidden border-4 border-white shadow-[0_4px_20px_rgba(13,31,60,0.15)] hidden lg:block">
+            {/* Small inset photo */}
+            <div style={{
+              position: 'absolute', bottom: -20, left: -20,
+              width: 140, height: 100,
+              border: '4px solid #fff',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+              overflow: 'hidden',
+            }} className="inset-photo">
               <img
                 src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400&q=80&auto=format&fit=crop"
-                alt="Plumber working on pipes"
-                className="w-full h-full object-cover"
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 loading="lazy"
               />
             </div>
           </div>
 
-          {/* Text side */}
-          <div
-            ref={textRef as React.RefObject<HTMLDivElement>}
-            className={[
-              'order-1 lg:order-2 transition-all duration-700',
-              textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8',
-            ].join(' ')}
-          >
-            <SectionHeading
-              eyebrow="About FlowRight"
-              title="Your Local Plumber. Built on Trust."
-              subtitle="FlowRight Plumbing was built on a simple idea: do excellent work, treat customers well, and be the company your neighbors call when something goes wrong. We've carried that philosophy through every job we've ever done."
-              id="about-heading"
-            />
+          {/* Right: text */}
+          <div style={{ paddingLeft: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+              <div style={{ width: 32, height: 2, background: '#111' }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#999', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                About FlowRight
+              </span>
+            </div>
 
-            <p className="text-[#5A6A85] text-sm leading-relaxed mt-5 mb-6">
-              Our team of licensed plumbers brings the skills, tools, and experience needed to solve virtually any plumbing problem — from a dripping faucet to a complete commercial fit-out. We stay current with the latest techniques and materials so you get the best long-term results.
+            <h2 style={{
+              fontSize: 'clamp(1.7rem, 3vw, 2.4rem)',
+              fontWeight: 800, color: '#111',
+              lineHeight: 1.1, letterSpacing: '-0.5px',
+              marginBottom: 20,
+            }}>
+              Your Local Plumber.<br />Built on Trust.
+            </h2>
+
+            <p style={{ fontSize: 14, color: '#555', lineHeight: 1.75, marginBottom: 12 }}>
+              FlowRight Plumbing was built on a simple idea: do excellent work, treat customers well, and be the company your neighbors call when something goes wrong.
+            </p>
+            <p style={{ fontSize: 14, color: '#555', lineHeight: 1.75, marginBottom: 28 }}>
+              Our licensed team brings the skills and experience needed to handle virtually any plumbing challenge — from a dripping faucet to a full commercial fit-out.
             </p>
 
-            {/* Commitments */}
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-8" role="list">
-              {commitments.map((c) => (
-                <li key={c} className="flex items-start gap-2.5 text-[13.5px] text-[#2E4068]">
-                  <CheckCircle2 size={15} className="text-[#1B6FDB] flex-shrink-0 mt-0.5" aria-hidden="true" />
+            {/* Commitments list */}
+            <ul style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px', marginBottom: 36 }}>
+              {commitments.map(c => (
+                <li key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: '#333' }}>
+                  <CheckCircle size={14} style={{ color: '#1B6FDB', flexShrink: 0, marginTop: 2 }} />
                   {c}
                 </li>
               ))}
             </ul>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <button
                 onClick={() => scrollTo('#contact')}
-                className="inline-flex items-center justify-center gap-2 bg-[#1B6FDB] text-white font-semibold px-7 py-3.5 rounded-xl text-[14.5px] hover:bg-[#1560C0] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB] focus-visible:ring-offset-2"
+                style={{
+                  background: '#111', color: '#fff',
+                  fontSize: 13, fontWeight: 700,
+                  padding: '13px 28px',
+                  border: 'none', borderRadius: 0, cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#1B6FDB')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#111')}
               >
                 Get a Free Quote
               </button>
               <a
                 href={PHONE_HREF}
-                className="inline-flex items-center justify-center gap-2 text-[14.5px] font-semibold text-[#0D1F3C] border border-[#C4D4EC] px-7 py-3.5 rounded-xl hover:bg-[#EBF3FF] hover:border-[#C4DAFB] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  border: '1.5px solid #E0E0E0', color: '#111',
+                  fontSize: 13, fontWeight: 600,
+                  padding: '12px 24px',
+                  textDecoration: 'none',
+                  transition: 'border-color 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = '#111')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#E0E0E0')}
               >
-                <Phone size={15} aria-hidden="true" />
+                <Phone size={13} />
                 {PHONE}
               </a>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr !important; gap: 48px !important; } }
+        @media (max-width: 768px) { .inset-photo { display: none; } }
+      `}</style>
     </section>
   );
 }

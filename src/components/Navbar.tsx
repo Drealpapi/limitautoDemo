@@ -1,205 +1,214 @@
 import { useState, useEffect } from 'react';
 import { Phone, Menu, X } from 'lucide-react';
-import { scrollTo } from '../lib/utils';
 
 const PHONE = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 
-const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Service Area', href: '#service-area' },
-  { label: 'Contact', href: '#contact' },
+const NAV = [
+  { label: 'Home',        anchor: null       },
+  { label: 'About Us',    anchor: '#about'   },
+  { label: 'Services',    anchor: '#services' },
+  { label: 'Gallery',     anchor: '#gallery'  },
+  { label: 'Contact',     anchor: '#contact'  },
 ];
+
+function goTo(anchor: string | null) {
+  if (!anchor) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const el = document.querySelector(anchor);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open,     setOpen]     = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [mobileOpen]);
-
-  const handleNav = (href: string) => {
-    setMobileOpen(false);
-    scrollTo(href);
-  };
-
-  const transparent = !scrolled;
+  }, [open]);
 
   return (
     <>
-      <header
-        className={[
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-          transparent
-            ? 'bg-transparent'
-            : 'bg-white shadow-[0_1px_24px_rgba(13,31,60,0.09)]',
-        ].join(' ')}
-      >
-        <div className="max-w-7xl mx-auto px-5 lg:px-10 flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB] rounded"
-            aria-label="FlowRight Plumbing — home"
-          >
-            <div className="w-9 h-9 bg-[#1B6FDB] rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105 shadow-[0_2px_8px_rgba(27,111,219,0.35)]">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 2C8 2 5 5 5 9c0 2.5 1.2 4.7 3 6.2V20a1 1 0 001 1h6a1 1 0 001-1v-4.8c1.8-1.5 3-3.7 3-6.2 0-4-3-7-7-7z" fill="white" opacity="0.9"/>
-                <path d="M9 15.5V18h6v-2.5" stroke="white" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-                <circle cx="12" cy="9" r="2.5" fill="white" opacity="0.5"/>
-              </svg>
-            </div>
-            <div>
-              <span className={`font-display font-bold text-[17px] tracking-tight transition-colors ${transparent ? 'text-white' : 'text-[#0D1F3C]'}`}>
-                FlowRight
-              </span>
-              <span className={`font-display font-light text-[17px] tracking-tight transition-colors ${transparent ? 'text-white/80' : 'text-[#1B6FDB]'}`}>
-                {' '}Plumbing
-              </span>
-            </div>
-          </a>
+      {/* ─── HEADER ─── */}
+      <header style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        background: '#fff',
+        borderBottom: `1px solid ${scrolled ? '#E8E8E8' : 'transparent'}`,
+        boxShadow: scrolled ? '0 2px 16px rgba(0,0,0,0.07)' : 'none',
+        transition: 'border-color .25s, box-shadow .25s',
+      }}>
+        <div style={{
+          maxWidth: 1160, margin: '0 auto', padding: '0 28px',
+          height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          gap: 32,
+        }}>
 
-          {/* Desktop nav */}
-          <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-0.5">
-            {navLinks.map((link) => (
+          {/* Logo — matches reference mountain/wave icon + bold name */}
+          <button
+            onClick={() => goTo(null)}
+            aria-label="FlowRight Plumbing — home"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}
+          >
+            <svg width="28" height="22" viewBox="0 0 28 22" fill="none" aria-hidden="true">
+              <path d="M2 19 L8 5 L14 13 L18 7 L26 19 Z" stroke="#1B6FDB" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" fill="none"/>
+            </svg>
+            <span style={{ fontSize: 15, fontWeight: 800, color: '#111', letterSpacing: '-0.3px', lineHeight: 1 }}>
+              FlowRight
+            </span>
+          </button>
+
+          {/* Desktop nav — reference: plain text links, active = underlined */}
+          <nav aria-label="Primary" style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1, justifyContent: 'center' }} className="desk-nav">
+            {NAV.map((n, i) => (
               <button
-                key={link.label}
-                onClick={() => handleNav(link.href)}
-                className={[
-                  'text-[13.5px] font-medium px-3.5 py-2 rounded-lg transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]',
-                  transparent
-                    ? 'text-white/85 hover:text-white hover:bg-white/10'
-                    : 'text-[#2E4068] hover:text-[#1B6FDB] hover:bg-[#EBF3FF]',
-                ].join(' ')}
+                key={n.label}
+                onClick={() => goTo(n.anchor)}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: 14, fontWeight: i === 0 ? 600 : 400,
+                  color: '#333',
+                  padding: '6px 14px',
+                  textDecoration: i === 0 ? 'underline' : 'none',
+                  textDecorationThickness: 2,
+                  textUnderlineOffset: 3,
+                  transition: 'color .15s',
+                  lineHeight: 1,
+                  letterSpacing: '0',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#000')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#333')}
               >
-                {link.label}
+                {n.label}
               </button>
             ))}
           </nav>
 
-          {/* Desktop right: phone + CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right: phone (subtle) + outlined CTA — reference exact */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexShrink: 0 }} className="desk-nav">
             <a
               href={PHONE_HREF}
-              className={[
-                'flex items-center gap-2 text-[13.5px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB] rounded',
-                transparent ? 'text-white hover:text-white/80' : 'text-[#0D1F3C] hover:text-[#1B6FDB]',
-              ].join(' ')}
-              aria-label={`Call us at ${PHONE}`}
+              style={{ fontSize: 13, color: '#666', display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', transition: 'color .15s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#111')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#666')}
             >
-              <Phone size={14} aria-hidden="true" />
-              {PHONE}
+              <Phone size={12} /> {PHONE}
             </a>
+
+            {/* Reference button — sharp corners, black outline, white fill */}
             <button
-              onClick={() => handleNav('#contact')}
-              className="text-[13.5px] font-semibold bg-[#F57C2B] text-white px-5 py-2.5 rounded-xl hover:bg-[#E06820] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F57C2B] focus-visible:ring-offset-2 shadow-[0_2px_8px_rgba(245,124,43,0.35)]"
+              onClick={() => goTo('#contact')}
+              style={{
+                background: 'transparent',
+                border: '1.5px solid #111',
+                color: '#111',
+                fontSize: 13, fontWeight: 600,
+                padding: '9px 20px',
+                borderRadius: 0, cursor: 'pointer',
+                letterSpacing: '0',
+                transition: 'background .15s, color .15s',
+                lineHeight: 1,
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#111'; e.currentTarget.style.color = '#fff'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#111'; }}
             >
               Book a Service
             </button>
           </div>
 
-          {/* Mobile: phone icon + menu */}
-          <div className="flex items-center gap-2 md:hidden">
-            <a
-              href={PHONE_HREF}
-              className={`p-2 rounded-xl transition-colors ${transparent ? 'text-white hover:bg-white/10' : 'text-[#1B6FDB] hover:bg-[#EBF3FF]'}`}
-              aria-label={`Call ${PHONE}`}
-            >
-              <Phone size={20} aria-hidden="true" />
+          {/* Mobile: phone + burger */}
+          <div style={{ display: 'none', alignItems: 'center', gap: 4 }} className="mob-nav">
+            <a href={PHONE_HREF} style={{ color: '#1B6FDB', padding: '8px', display: 'flex' }} aria-label="Call now">
+              <Phone size={20} />
             </a>
             <button
-              className={`p-2 rounded-xl transition-colors ${transparent ? 'text-white hover:bg-white/10' : 'text-[#0D1F3C] hover:bg-[#EBF3FF]'}`}
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => setOpen(v => !v)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', display: 'flex', color: '#111' }}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mob-menu"
             >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              {open ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile drawer */}
-      <div
-        id="mobile-menu"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Navigation"
-        className={[
-          'fixed inset-0 z-40 bg-white flex flex-col pt-16 transition-all duration-300 md:hidden',
-          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
-        ].join(' ')}
-      >
-        <nav aria-label="Mobile navigation" className="flex flex-col px-5 py-5 gap-0.5">
-          {navLinks.map((link) => (
-            <button
-              key={link.label}
-              onClick={() => handleNav(link.href)}
-              className="text-left text-[17px] font-medium text-[#0D1F3C] py-3.5 border-b border-[#E2EAF5] hover:text-[#1B6FDB] transition-colors cursor-pointer focus-visible:outline-none focus-visible:text-[#1B6FDB]"
-            >
-              {link.label}
-            </button>
-          ))}
-        </nav>
-        <div className="px-5 pt-4 flex flex-col gap-3">
-          <a
-            href={PHONE_HREF}
-            className="w-full flex items-center justify-center gap-2.5 bg-[#1B6FDB] text-white font-semibold py-4 rounded-xl text-base hover:bg-[#1560C0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]"
-          >
-            <Phone size={18} aria-hidden="true" />
-            Call Now — {PHONE}
-          </a>
-          <button
-            onClick={() => handleNav('#contact')}
-            className="w-full flex items-center justify-center gap-2 bg-[#F57C2B] text-white font-semibold py-4 rounded-xl text-base hover:bg-[#E06820] transition-colors cursor-pointer"
-          >
-            Book a Service
-          </button>
+      {/* ─── MOBILE DRAWER ─── */}
+      {open && (
+        <div
+          id="mob-menu"
+          role="dialog" aria-modal="true" aria-label="Navigation"
+          style={{ position: 'fixed', inset: 0, zIndex: 90, background: '#fff', paddingTop: 64, display: 'flex', flexDirection: 'column' }}
+        >
+          <nav style={{ display: 'flex', flexDirection: 'column', padding: '8px 28px' }}>
+            {NAV.map(n => (
+              <button
+                key={n.label}
+                onClick={() => { setOpen(false); goTo(n.anchor); }}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  textAlign: 'left', fontSize: 18, fontWeight: 500, color: '#111',
+                  padding: '15px 0', borderBottom: '1px solid #F2F2F2',
+                }}
+              >{n.label}</button>
+            ))}
+          </nav>
+          <div style={{ padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <a href={PHONE_HREF} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+              background: '#1B6FDB', color: '#fff', fontWeight: 700, fontSize: 15,
+              padding: '15px', textDecoration: 'none',
+            }}>
+              <Phone size={16} /> Call {PHONE}
+            </a>
+            <button onClick={() => { setOpen(false); goTo('#contact'); }} style={{
+              background: '#111', color: '#fff', fontWeight: 700, fontSize: 15,
+              padding: '15px', border: 'none', cursor: 'pointer',
+            }}>Book a Service</button>
+          </div>
         </div>
-        <p className="text-center text-[#8FA0BA] text-xs mt-auto px-5 pb-8 pt-5">
-          Available 24/7 for emergencies
-        </p>
+      )}
+
+      {/* ─── MOBILE STICKY BOTTOM BAR ─── */}
+      <div
+        aria-hidden={!scrolled}
+        style={{
+          display: 'none', /* shown via CSS below */
+          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 90,
+          background: '#fff', borderTop: '1px solid #E8E8E8',
+          boxShadow: '0 -2px 12px rgba(0,0,0,.08)',
+          gridTemplateColumns: '1fr 1fr',
+          transform: scrolled ? 'translateY(0)' : 'translateY(110%)',
+          transition: 'transform .3s',
+        }}
+        className="mob-bar"
+      >
+        <a href={PHONE_HREF} style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          fontSize: 14, fontWeight: 600, color: '#1B6FDB',
+          padding: '15px', textDecoration: 'none', borderRight: '1px solid #E8E8E8',
+        }}>
+          <Phone size={14} /> Call Now
+        </a>
+        <button onClick={() => goTo('#contact')} style={{
+          background: '#111', color: '#fff', fontSize: 14, fontWeight: 700,
+          border: 'none', cursor: 'pointer',
+        }}>Book a Service</button>
       </div>
 
-      {/* Mobile sticky CTA bar (visible on scroll) */}
-      <div
-        className={[
-          'fixed bottom-0 left-0 right-0 z-40 md:hidden transition-all duration-300 bg-white border-t border-[#E2EAF5] shadow-[0_-4px_20px_rgba(13,31,60,0.1)]',
-          scrolled ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0',
-        ].join(' ')}
-        aria-hidden={!scrolled}
-      >
-        <div className="grid grid-cols-2 gap-0">
-          <a
-            href={PHONE_HREF}
-            className="flex items-center justify-center gap-2 text-[14px] font-semibold text-[#1B6FDB] py-4 border-r border-[#E2EAF5] hover:bg-[#EBF3FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]"
-            tabIndex={scrolled ? 0 : -1}
-            aria-label={`Call ${PHONE}`}
-          >
-            <Phone size={16} aria-hidden="true" />
-            Call Now
-          </a>
-          <button
-            onClick={() => handleNav('#contact')}
-            className="flex items-center justify-center gap-2 text-[14px] font-semibold text-white bg-[#F57C2B] hover:bg-[#E06820] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F57C2B]"
-            tabIndex={scrolled ? 0 : -1}
-          >
-            Book a Service
-          </button>
-        </div>
-      </div>
+      <style>{`
+        @media (max-width: 768px) {
+          .desk-nav { display: none !important; }
+          .mob-nav  { display: flex !important; }
+          .mob-bar  { display: grid !important; }
+        }
+      `}</style>
     </>
   );
 }

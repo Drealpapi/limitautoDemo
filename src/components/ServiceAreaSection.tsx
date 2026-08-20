@@ -1,86 +1,101 @@
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import SectionHeading from './SectionHeading';
 import { MapPin, Phone } from 'lucide-react';
-import { scrollTo } from '../lib/utils';
 
 const PHONE = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 
-// Replace these with the actual service area
 const areas = [
-  { name: 'Downtown', primary: true },
-  { name: 'Riverside District', primary: true },
-  { name: 'Greenfield Heights', primary: true },
-  { name: 'Oakwood', primary: true },
-  { name: 'Elmwood Estates', primary: false },
-  { name: 'Northside', primary: false },
-  { name: 'Westfield', primary: false },
-  { name: 'Parkview', primary: false },
-  { name: 'Lakewood', primary: false },
-  { name: 'Cedar Hills', primary: false },
-  { name: 'Maplewood', primary: false },
-  { name: 'Harborview', primary: false },
+  { name: 'Downtown',          primary: true  },
+  { name: 'Riverside District', primary: true  },
+  { name: 'Greenfield Heights', primary: true  },
+  { name: 'Oakwood',            primary: true  },
+  { name: 'Elmwood Estates',    primary: false },
+  { name: 'Northside',          primary: false },
+  { name: 'Westfield',          primary: false },
+  { name: 'Parkview',           primary: false },
+  { name: 'Lakewood',           primary: false },
+  { name: 'Cedar Hills',        primary: false },
+  { name: 'Maplewood',          primary: false },
+  { name: 'Harborview',         primary: false },
 ];
 
-export default function ServiceAreaSection() {
-  const [ref, visible] = useIntersectionObserver({ threshold: 0.1 });
+function scrollTo(id: string) {
+  const el = document.querySelector(id);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
 
+export default function ServiceAreaSection() {
   return (
-    <section
-      id="service-area"
-      className="py-16 lg:py-24 bg-white"
-      aria-labelledby="area-heading"
-    >
-      <div className="max-w-7xl mx-auto px-5 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: text */}
-          <div
-            ref={ref as React.RefObject<HTMLDivElement>}
-            className={[
-              'transition-all duration-700',
-              visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5',
-            ].join(' ')}
-          >
-            <SectionHeading
-              eyebrow="Where We Work"
-              title="Serving Your Community"
-              subtitle="We provide plumbing services across the following areas. Not sure if we cover your location? Give us a call — we'll let you know."
-              id="area-heading"
-            />
+    <section id="service-area" style={{ background: '#F7F9FC', padding: '80px 0' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }} className="area-grid">
+
+          {/* Left */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+              <div style={{ width: 32, height: 2, background: '#111' }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#999', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                Where We Work
+              </span>
+            </div>
+            <h2 style={{ fontSize: 'clamp(1.7rem, 3vw, 2.4rem)', fontWeight: 800, color: '#111', lineHeight: 1.1, letterSpacing: '-0.5px', marginBottom: 16 }}>
+              Serving Your Community
+            </h2>
+            <p style={{ fontSize: 14, color: '#666', lineHeight: 1.75, marginBottom: 28, maxWidth: 440 }}>
+              We provide plumbing services across the following areas. Not sure if we cover your location? Give us a call — we'll let you know.
+            </p>
 
             {/* Area chips */}
-            <div className="flex flex-wrap gap-2.5 mt-7 mb-8">
-              {areas.map((area) => (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
+              {areas.map(a => (
                 <span
-                  key={area.name}
-                  className={[
-                    'flex items-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl',
-                    area.primary
-                      ? 'bg-[#EBF3FF] text-[#1B6FDB] border border-[#C4DAFB]'
-                      : 'bg-[#F1F5FD] text-[#5A6A85] border border-[#E2EAF5]',
-                  ].join(' ')}
+                  key={a.name}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 5,
+                    fontSize: 12, fontWeight: a.primary ? 600 : 400,
+                    padding: '7px 13px',
+                    background: a.primary ? '#EBF3FF' : '#fff',
+                    border: `1px solid ${a.primary ? '#C4DAFB' : '#E0E0E0'}`,
+                    color: a.primary ? '#1B6FDB' : '#555',
+                  }}
                 >
-                  <MapPin size={11} aria-hidden="true" />
-                  {area.name}
+                  <MapPin size={10} />
+                  {a.name}
                 </span>
               ))}
             </div>
 
-            <p className="text-[#8FA0BA] text-sm mb-6">
-              * Replace with your actual service area. Coverage and response times may vary by distance.
+            <p style={{ fontSize: 12, color: '#aaa', marginBottom: 24 }}>
+              * Replace with your actual service area.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a
                 href={PHONE_HREF}
-                className="inline-flex items-center justify-center gap-2 bg-[#1B6FDB] text-white font-semibold px-6 py-3.5 rounded-xl text-[14px] hover:bg-[#1560C0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB] focus-visible:ring-offset-2"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  background: '#111', color: '#fff',
+                  fontSize: 13, fontWeight: 600,
+                  padding: '12px 24px', textDecoration: 'none',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = '#1B6FDB')}
+                onMouseLeave={e => (e.currentTarget.style.background = '#111')}
               >
-                <Phone size={15} aria-hidden="true" />
+                <Phone size={13} />
                 Call {PHONE}
               </a>
               <button
                 onClick={() => scrollTo('#contact')}
-                className="inline-flex items-center justify-center gap-2 text-[14px] font-semibold text-[#1B6FDB] border border-[#C4DAFB] px-6 py-3.5 rounded-xl hover:bg-[#EBF3FF] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6FDB]"
+                style={{
+                  background: 'none', border: '1.5px solid #E0E0E0', color: '#111',
+                  fontSize: 13, fontWeight: 600, padding: '12px 24px',
+                  borderRadius: 0, cursor: 'pointer', transition: 'border-color 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = '#111')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#E0E0E0')}
               >
                 Check My Area
               </button>
@@ -88,27 +103,34 @@ export default function ServiceAreaSection() {
           </div>
 
           {/* Right: map placeholder */}
-          <div className="relative rounded-2xl overflow-hidden bg-[#EBF3FF] border border-[#C4DAFB]" style={{ minHeight: '380px' }}>
-            {/* Styled map placeholder */}
-            <div className="w-full h-full min-h-[380px] flex flex-col items-center justify-center gap-4 p-8">
-              <div className="w-16 h-16 bg-[#1B6FDB]/10 rounded-full flex items-center justify-center">
-                <MapPin size={30} className="text-[#1B6FDB]" aria-hidden="true" />
-              </div>
-              <div className="text-center">
-                <p className="font-display font-bold text-[#0D1F3C] text-lg mb-2">Service Area Map</p>
-                <p className="text-[#5A6A85] text-sm max-w-xs text-center">
-                  Replace this placeholder with a Google Maps embed showing your coverage area.
-                </p>
-              </div>
-              {/* Fake dot pattern for visual interest */}
-              <div className="absolute inset-0 opacity-[0.04]" style={{
-                backgroundImage: 'radial-gradient(circle, #1B6FDB 1px, transparent 1px)',
-                backgroundSize: '24px 24px',
-              }} aria-hidden="true" />
+          <div style={{
+            background: '#E8F0FA',
+            border: '1px solid #D4E4F7',
+            minHeight: 380,
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            gap: 16, padding: 32, position: 'relative', overflow: 'hidden',
+          }}>
+            {/* Grid dot pattern */}
+            <div style={{
+              position: 'absolute', inset: 0, opacity: 0.04,
+              backgroundImage: 'radial-gradient(circle, #1B6FDB 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }} aria-hidden="true" />
+            <MapPin size={36} color="#1B6FDB" opacity={0.6} />
+            <div style={{ textAlign: 'center', position: 'relative' }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 8 }}>Service Area Map</p>
+              <p style={{ fontSize: 13, color: '#666', maxWidth: 260, lineHeight: 1.6 }}>
+                Replace this placeholder with a Google Maps embed of your coverage area.
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) { .area-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
   );
 }
