@@ -11,63 +11,66 @@ const SERVICE_LINKS = [
 ];
 
 const COMPANY_LINKS = [
-  { label: 'About Us',        id: '#about'        },
-  { label: 'Our Services',    id: '#services'      },
-  { label: 'Project Gallery', id: '#gallery'       },
-  { label: 'Service Area',    id: '#service-area'  },
-  { label: 'Customer Reviews',id: '#reviews'       },
-  { label: 'Contact Us',      id: '#contact'       },
+  { label: 'About Us',         id: '#about'       },
+  { label: 'Our Services',     id: '#services'    },
+  { label: 'Project Gallery',  id: '#gallery'     },
+  { label: 'Service Area',     id: '#service-area'},
+  { label: 'Reviews',          id: '#reviews'     },
+  { label: 'Contact Us',       id: '#contact'     },
 ];
 
-function scrollTo(id: string) {
+function goTo(id: string) {
   const el = document.querySelector(id);
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 72;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
 }
+
+const linkStyle: React.CSSProperties = {
+  background: 'none', border: 'none', cursor: 'pointer',
+  textAlign: 'left', fontSize: 13, color: '#555', padding: 0,
+  lineHeight: 1.5, transition: 'color 0.15s', fontFamily: 'inherit',
+};
 
 export default function Footer() {
   return (
     <footer style={{ background: '#0A0A0A', color: '#fff' }}>
 
       {/* ── Pre-footer CTA strip ── */}
-      <div style={{ borderBottom: '1px solid #1e1e1e' }}>
+      <div style={{
+        background: 'linear-gradient(135deg, #0D1F3C 0%, #1A3260 100%)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        position: 'relative', overflow: 'hidden',
+      }}>
         <div style={{
-          maxWidth: 1200, margin: '0 auto', padding: '40px 24px',
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(circle at 70% 50%, rgba(27,111,219,0.2) 0%, transparent 65%)',
+          pointerEvents: 'none',
+        }} aria-hidden="true" />
+        <div style={{
+          maxWidth: 1160, margin: '0 auto', padding: '44px 32px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          gap: 24, flexWrap: 'wrap',
+          gap: 24, flexWrap: 'wrap', position: 'relative',
         }}>
           <div>
-            <p style={{ fontSize: 20, fontWeight: 800, color: '#fff', marginBottom: 4 }}>Need a plumber today?</p>
-            <p style={{ fontSize: 14, color: '#666' }}>We're ready to help. Call now or send us a message.</p>
+            <p style={{ fontSize: 21, fontWeight: 800, color: '#fff', marginBottom: 5, letterSpacing: '-0.4px' }}>
+              Need a plumber today?
+            </p>
+            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>
+              We're ready to help. Call now or send us a message.
+            </p>
           </div>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             <a
               href={PHONE_HREF}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                background: '#F57C2B', color: '#fff',
-                fontSize: 14, fontWeight: 700,
-                padding: '13px 24px', textDecoration: 'none',
-                transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#E06820')}
-              onMouseLeave={e => (e.currentTarget.style.background = '#F57C2B')}
+              className="btn-glass btn-orange"
+              style={{ padding: '13px 26px', fontSize: 13.5, borderRadius: 10, textDecoration: 'none' }}
             >
               <Phone size={15} />
               Call {PHONE}
             </a>
             <button
-              onClick={() => scrollTo('#contact')}
-              style={{
-                background: 'transparent', border: '1.5px solid #333',
-                color: '#fff', fontSize: 14, fontWeight: 600,
-                padding: '12px 24px', cursor: 'pointer',
-                transition: 'border-color 0.15s, background 0.15s',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = '#333'; e.currentTarget.style.background = 'transparent'; }}
+              onClick={() => goTo('#contact')}
+              className="btn-glass btn-ghost-dark"
+              style={{ padding: '13px 26px', fontSize: 13.5, borderRadius: 10 }}
             >
               Book a Service
             </button>
@@ -75,34 +78,46 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Main footer columns ── */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 24px 48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1.5fr', gap: 48 }} className="footer-grid">
+      {/* ── Main columns ── */}
+      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '64px 32px 52px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1.5fr', gap: 52 }} className="footer-cols">
 
           {/* Brand */}
           <div>
-            {/* Logo */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <svg width="24" height="20" viewBox="0 0 26 22" fill="none" aria-hidden="true">
-                <path d="M3 18 L9 6 L13 12 L17 8 L23 18 Z" fill="none" stroke="#1B6FDB" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round"/>
-              </svg>
-              <span style={{ fontWeight: 700, fontSize: 16, color: '#fff' }}>FlowRight <span style={{ fontWeight: 300, color: '#5BA8FF' }}>Plumbing</span></span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+              <div style={{
+                width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                background: 'linear-gradient(135deg,#1B6FDB,#2480F0)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 4px 14px rgba(27,111,219,0.4)',
+              }}>
+                <svg width="17" height="15" viewBox="0 0 22 18" fill="none" aria-hidden="true">
+                  <path d="M1 16 L6 4 L11 10 L15 6 L21 16" stroke="white" strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" fill="none"/>
+                </svg>
+              </div>
+              <span style={{ fontWeight: 800, fontSize: 15, color: '#fff', letterSpacing: '-0.3px' }}>
+                FlowRight<span style={{ fontWeight: 300, color: '#5BA8FF', marginLeft: 2 }}>Plumbing</span>
+              </span>
             </div>
-            <p style={{ fontSize: 13, color: '#555', lineHeight: 1.75, maxWidth: 220, marginBottom: 20 }}>
+            <p style={{ fontSize: 13, color: '#555', lineHeight: 1.75, maxWidth: 230, marginBottom: 22 }}>
               Reliable plumbing and drain services for homes and businesses. Available 24/7 for emergencies.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <a href={PHONE_HREF} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#555', textDecoration: 'none', transition: 'color 0.15s' }}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+              <a href={PHONE_HREF}
+                style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: '#555', textDecoration: 'none', transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
+                onMouseLeave={e => (e.currentTarget.style.color = '#555')}
+              >
                 <Phone size={12} color="#5BA8FF" /> {PHONE}
               </a>
-              <a href="mailto:service@flowrightplumbing.com" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#555', textDecoration: 'none', transition: 'color 0.15s' }}
+              <a href="mailto:service@flowrightplumbing.com"
+                style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: '#555', textDecoration: 'none', transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
+                onMouseLeave={e => (e.currentTarget.style.color = '#555')}
+              >
                 <Mail size={12} color="#5BA8FF" /> service@flowrightplumbing.com
               </a>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: '#555' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: '#555' }}>
                 <MapPin size={12} color="#5BA8FF" style={{ flexShrink: 0, marginTop: 2 }} />
                 Your City, State [Replace]
               </div>
@@ -111,17 +126,13 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 18 }}>Services</p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Services</p>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11 }}>
               {SERVICE_LINKS.map(s => (
                 <li key={s}>
-                  <button onClick={() => scrollTo('#services')} style={{
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    textAlign: 'left', fontSize: 13, color: '#555', padding: 0,
-                    transition: 'color 0.15s',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
+                  <button onClick={() => goTo('#services')} style={linkStyle}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
                     {s}
                   </button>
                 </li>
@@ -131,17 +142,13 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 18 }}>Company</p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Company</p>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11 }}>
               {COMPANY_LINKS.map(l => (
                 <li key={l.label}>
-                  <button onClick={() => scrollTo(l.id)} style={{
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    textAlign: 'left', fontSize: 13, color: '#555', padding: 0,
-                    transition: 'color 0.15s',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
+                  <button onClick={() => goTo(l.id)} style={linkStyle}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                    onMouseLeave={e => (e.currentTarget.style.color = '#555')}>
                     {l.label}
                   </button>
                 </li>
@@ -151,40 +158,47 @@ export default function Footer() {
 
           {/* Hours */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 18 }}>Hours</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#444', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 20 }}>Hours</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {[
-                ['Monday – Friday', '7:00 AM – 7:00 PM'],
-                ['Saturday',         '8:00 AM – 5:00 PM'],
-                ['Sunday',           'Emergency Only'   ],
-                ['Emergency Line',   '24/7 Available'   ],
+                ['Mon – Fri', '7:00 AM – 7:00 PM'],
+                ['Saturday',  '8:00 AM – 5:00 PM'],
+                ['Sunday',    'Emergency Only'   ],
               ].map(([d, h]) => (
                 <div key={d}>
-                  <p style={{ fontSize: 12, fontWeight: 600, color: '#888', marginBottom: 1 }}>{d}</p>
-                  <p style={{ fontSize: 12, color: '#555' }}>{h}</p>
+                  <p style={{ fontSize: 12, fontWeight: 600, color: '#777', marginBottom: 1 }}>{d}</p>
+                  <p style={{ fontSize: 12.5, color: '#4A5568' }}>{h}</p>
                 </div>
               ))}
             </div>
 
-            {/* Emergency callout */}
+            {/* Emergency glass card */}
             <div style={{
               marginTop: 24,
-              border: '1px solid #F57C2B33',
-              background: 'rgba(245,124,43,0.06)',
-              padding: '16px',
+              background: 'rgba(245,124,43,0.07)',
+              border: '1px solid rgba(245,124,43,0.2)',
+              borderRadius: 12, padding: '16px 18px',
             }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: '#F57C2B', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 6 }}>Emergency?</p>
-              <a href={PHONE_HREF} style={{ fontSize: 14, fontWeight: 700, color: '#fff', textDecoration: 'none' }}>{PHONE}</a>
-              <p style={{ fontSize: 11, color: '#555', marginTop: 2 }}>Available right now</p>
+              <p style={{ fontSize: 10, fontWeight: 700, color: '#F57C2B', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 7 }}>
+                Emergency?
+              </p>
+              <a href={PHONE_HREF}
+                style={{ fontSize: 14, fontWeight: 700, color: '#fff', textDecoration: 'none', display: 'block', marginBottom: 3, transition: 'color 0.15s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#F57C2B')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#fff')}
+              >
+                {PHONE}
+              </a>
+              <p style={{ fontSize: 11, color: '#555' }}>Available right now</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* ── Bottom bar ── */}
-      <div style={{ borderTop: '1px solid #1a1a1a' }}>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{
-          maxWidth: 1200, margin: '0 auto', padding: '20px 24px',
+          maxWidth: 1160, margin: '0 auto', padding: '20px 32px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           flexWrap: 'wrap', gap: 12,
         }}>
@@ -193,19 +207,19 @@ export default function Footer() {
           </p>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Privacy Policy', 'Terms of Service', 'Licensing'].map(l => (
-              <button key={l} style={{ background: 'none', border: 'none', fontSize: 12, color: '#444', cursor: 'pointer', padding: 0, transition: 'color 0.15s' }}
+              <button key={l}
+                style={{ ...linkStyle, fontSize: 12, color: '#444' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#444')}>
-                {l}
-              </button>
+                onMouseLeave={e => (e.currentTarget.style.color = '#444')}
+              >{l}</button>
             ))}
           </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 960px)  { .footer-cols { grid-template-columns: 1fr 1fr !important; gap: 40px !important; } }
+        @media (max-width: 480px)  { .footer-cols { grid-template-columns: 1fr !important; } }
       `}</style>
     </footer>
   );

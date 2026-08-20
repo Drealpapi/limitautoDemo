@@ -2,20 +2,6 @@
 
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-
-  --color-sky-bg:   #DAE9F5;   /* hero pale sky blue — exact reference tone */
-  --color-white:    #FFFFFF;
-  --color-black:    #0A0A0A;   /* near-black used for headings, buttons */
-  --color-ink:      #111111;
-  --color-ink-mid:  #333333;
-  --color-muted:    #666666;
-  --color-faint:    #999999;
-  --color-border:   #E8E8E8;
-  --color-surface:  #F5F5F5;
-
-  --color-blue:     #1B6FDB;   /* accent — buttons, links */
-  --color-navy:     #0D1F3C;   /* dark section bg */
-  --color-orange:   #F57C2B;   /* emergency accent */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,7 +11,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: #fff;
-  color: #111111;
+  color: #111;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -40,14 +26,108 @@ body {
   }
 }
 
-:focus-visible { outline: 2px solid #1B6FDB; outline-offset: 3px; }
-::selection    { background: #DAE9F5; color: #0A0A0A; }
+:focus-visible { outline: 2px solid #1B6FDB; outline-offset: 3px; border-radius: 2px; }
+::selection    { background: #D5E9F6; color: #0A0A0A; }
 
+/* ─── Glassmorphism button utility ─── */
+.btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.btn-glass:hover  { transform: translateY(-1px); }
+.btn-glass:active { transform: translateY(0); }
+
+/* Primary — solid blue with glass shimmer */
+.btn-primary {
+  background: linear-gradient(135deg, #1B6FDB 0%, #2480F0 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(27,111,219,0.38), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 28px rgba(27,111,219,0.5), inset 0 1px 0 rgba(255,255,255,0.22);
+  background: linear-gradient(135deg, #1668CC 0%, #1B6FDB 100%);
+}
+
+/* Orange / emergency */
+.btn-orange {
+  background: linear-gradient(135deg, #F57C2B 0%, #FF8C3A 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(245,124,43,0.38), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.btn-orange:hover {
+  box-shadow: 0 8px 28px rgba(245,124,43,0.5), inset 0 1px 0 rgba(255,255,255,0.22);
+  background: linear-gradient(135deg, #E06820 0%, #F57C2B 100%);
+}
+
+/* Ghost on dark bg — glass overlay */
+.btn-ghost-dark {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.btn-ghost-dark:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.42);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+/* Ghost on light bg — outline */
+.btn-ghost-light {
+  background: rgba(27,111,219,0.05);
+  color: #1B6FDB;
+  border: 1.5px solid rgba(27,111,219,0.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+.btn-ghost-light:hover {
+  background: rgba(27,111,219,0.1);
+  border-color: rgba(27,111,219,0.6);
+  box-shadow: 0 4px 16px rgba(27,111,219,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+/* Dark outline (nav) */
+.btn-outline-dark {
+  background: transparent;
+  color: #111;
+  border: 1.5px solid #ccc;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.btn-outline-dark:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+/* ─── Keyframes ─── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.6; }
 }
