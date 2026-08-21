@@ -13,7 +13,7 @@ dist-ssr
 *.local
 
 # Large media files — keep locally, do not push to GitHub
-public/*.mp4
+# public/*.mp4  ← removed so hero.mp4 can deploy on Vercel
 public/*.webm
 public/*.mov
 public/*.avi
