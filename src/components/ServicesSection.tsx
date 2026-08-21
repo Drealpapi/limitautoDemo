@@ -1,86 +1,91 @@
 import { useState } from 'react';
-import { ArrowRight, ArrowUpRight, Zap, Waves, Droplets, Flame, Wrench, ShowerHead, GitMerge, Building2 } from 'lucide-react';
+import {
+  AlertTriangle, Droplets, Waves, Flame,
+  Bath, Pipette, GitMerge, ArrowDownUp,
+  ShowerHead, UtensilsCrossed, Search,
+  ArrowRight, Phone,
+} from 'lucide-react';
 import { services } from '../data/services';
+
+const PHONE_HREF = 'tel:+15551234567';
 
 function goTo(a: string) {
   const el = document.querySelector(a);
   if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: 'smooth' });
 }
 
-/* Lucide icon map — replaces all emoji specs */
-const ICON_MAP: Record<string, React.ElementType> = {
-  'emergency':        Zap,
-  'drain-cleaning':   Waves,
-  'leak-detection':   Droplets,
-  'water-heater':     Flame,
-  'pipe-repair':      Wrench,
-  'bathroom-kitchen': ShowerHead,
-  'sewer-line':       GitMerge,
-  'commercial':       Building2,
-};
-
-/* Spec rows — text only, no emoji */
-const SPECS: Record<string, { label: string }[]> = {
-  'emergency':        [{ label: '24/7 Response' }, { label: 'Any Issue' }, { label: 'Fast Dispatch' }],
-  'drain-cleaning':   [{ label: 'Hydro-Jet' }, { label: 'Camera Inspect' }, { label: 'Guaranteed' }],
-  'leak-detection':   [{ label: 'Non-Invasive' }, { label: 'Slab Leaks' }, { label: 'Full Repair' }],
-  'water-heater':     [{ label: 'Tank/Tankless' }, { label: 'Gas & Electric' }, { label: 'Same Day' }],
-  'pipe-repair':      [{ label: 'Copper / PEX' }, { label: 'Full Repipe' }, { label: 'Warranted' }],
-  'bathroom-kitchen': [{ label: 'All Fixtures' }, { label: 'Kitchen Lines' }, { label: 'Remodel Ready' }],
-  'sewer-line':       [{ label: 'Video Inspect' }, { label: 'Hydro-Jet' }, { label: 'Root Removal' }],
-  'commercial':       [{ label: 'All Sizes' }, { label: 'Contracted' }, { label: 'Priority Service' }],
-};
-
-const PRICE: Record<string, string> = {
-  'emergency': 'Free Call-Out', 'drain-cleaning': 'From $149',
-  'leak-detection': 'From $199', 'water-heater': 'From $299',
-  'pipe-repair': 'Free Quote', 'bathroom-kitchen': 'Free Quote',
-  'sewer-line': 'From $249', 'commercial': 'Custom Quote',
+/* One lucide icon per service — strictly plumbing */
+const ICONS: Record<string, React.ElementType> = {
+  'emergency':     AlertTriangle,
+  'leak-pipe':     Droplets,
+  'drain-cleaning':Waves,
+  'water-heater':  Flame,
+  'toilets':       Bath,
+  'faucets-sinks': Pipette,
+  'sewer':         GitMerge,
+  'water-lines':   ArrowDownUp,
+  'bathroom':      ShowerHead,
+  'kitchen':       UtensilsCrossed,
+  'inspection':    Search,
 };
 
 export default function ServicesSection() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <section id="services" style={{ background: '#111B28', padding: '88px 0 96px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 32px' }}>
+    <section id="services" style={{ background: '#0E1C2E', padding: '96px 0 100px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-            <div style={{ width: 28, height: 2, background: '#4A6FA5', borderRadius: 2 }} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: '#6B8CAE', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-              What We Do
+        {/* ── Header ── */}
+        <div style={{ marginBottom: 52 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <div style={{ width: 24, height: 2, background: '#4A6FA5', borderRadius: 2 }} />
+            <span style={{
+              fontSize: 10.5, fontWeight: 700, color: '#6B8CAE',
+              letterSpacing: '0.22em', textTransform: 'uppercase',
+            }}>
+              Plumbing Services
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
+
+          <div style={{
+            display: 'flex', alignItems: 'flex-end',
+            justifyContent: 'space-between', gap: 20, flexWrap: 'wrap',
+          }}>
             <h2 style={{
-              fontSize: 'clamp(1.85rem, 3.5vw, 2.7rem)', fontWeight: 800,
-              color: '#fff', lineHeight: 1.08, letterSpacing: '-0.8px', maxWidth: 520,
+              fontSize: 'clamp(1.8rem, 3.2vw, 2.6rem)',
+              fontWeight: 800, color: '#F0F4FA',
+              lineHeight: 1.08, letterSpacing: '-0.8px',
             }}>
-              Complete Plumbing Services
+              What Can We Fix For You?
             </h2>
-            <button onClick={() => goTo('#contact')} style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13.5, fontWeight: 500, color: '#6B8CAE',
-              paddingBottom: 4, transition: 'color 0.15s',
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#6B8CAE')}
+
+            <button
+              onClick={() => goTo('#contact')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 7,
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 13.5, fontWeight: 500,
+                color: 'rgba(107,140,174,0.85)',
+                transition: 'color 0.15s', paddingBottom: 4,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#A8C6E8')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(107,140,174,0.85)')}
             >
-              Request Any Service <ArrowRight size={15} />
+              Request Any Service <ArrowRight size={14} />
             </button>
           </div>
         </div>
 
-        {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="svc-grid">
+        {/* ── Cards grid — 4 cols desktop, fluid down ── */}
+        <div
+          className="svc-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14 }}
+        >
           {services.map(s => {
-            const Icon = ICON_MAP[s.id] ?? Wrench;
-            const specs = SPECS[s.id] ?? [];
-            const price = PRICE[s.id] ?? 'Free Quote';
+            const Icon = ICONS[s.id] ?? Droplets;
             const isHov = hovered === s.id;
+            const isEmergency = !!s.emergency;
 
             return (
               <article
@@ -88,78 +93,130 @@ export default function ServicesSection() {
                 onMouseEnter={() => setHovered(s.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  background: '#fff', borderRadius: 10,
-                  display: 'flex', flexDirection: 'column', overflow: 'hidden',
-                  transform: isHov ? 'translateY(-5px)' : 'translateY(0)',
+                  background: isHov
+                    ? 'rgba(255,255,255,0.97)'
+                    : 'rgba(255,255,255,0.03)',
+                  border: isHov
+                    ? '1px solid rgba(255,255,255,0.2)'
+                    : isEmergency
+                      ? '1px solid rgba(220,60,60,0.25)'
+                      : '1px solid rgba(74,111,165,0.16)',
+                  borderRadius: 14,
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  transform: isHov ? 'translateY(-6px)' : 'translateY(0)',
                   boxShadow: isHov
-                    ? '0 18px 48px rgba(0,0,0,0.35)'
-                    : '0 2px 10px rgba(0,0,0,0.22)',
-                  transition: 'transform 0.22s ease, box-shadow 0.22s ease',
+                    ? '0 20px 48px rgba(0,0,0,0.4)'
+                    : isEmergency
+                      ? '0 2px 12px rgba(200,40,40,0.12)'
+                      : '0 2px 10px rgba(0,0,0,0.18)',
+                  transition: 'transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease',
+                  backdropFilter: isHov ? 'none' : 'blur(4px)',
+                  WebkitBackdropFilter: isHov ? 'none' : 'blur(4px)',
                 }}
               >
                 {/* Image */}
-                <div style={{ position: 'relative', height: 168, overflow: 'hidden', flexShrink: 0 }}>
-                  <img src={s.image} alt={s.title} loading="lazy" style={{
-                    width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                    transform: isHov ? 'scale(1.06)' : 'scale(1)',
-                    transition: 'transform 0.45s ease',
+                <div style={{ position: 'relative', height: 156, overflow: 'hidden', flexShrink: 0 }}>
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    loading="lazy"
+                    style={{
+                      width: '100%', height: '100%',
+                      objectFit: 'cover', objectPosition: 'center',
+                      display: 'block',
+                      transform: isHov ? 'scale(1.06)' : 'scale(1)',
+                      transition: 'transform 0.45s ease',
+                      filter: isHov ? 'brightness(0.85)' : 'brightness(0.7) saturate(0.9)',
+                    }}
+                  />
+
+                  {/* Dark overlay */}
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: isHov
+                      ? 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)'
+                      : 'linear-gradient(to top, rgba(14,28,46,0.7) 0%, rgba(14,28,46,0.15) 60%)',
+                    transition: 'background 0.22s ease',
                   }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(17,27,40,0.4) 0%, transparent 55%)' }} />
-                  {/* Icon badge top-left */}
+
+                  {/* Icon pill — top left */}
                   <div style={{
                     position: 'absolute', top: 10, left: 10,
-                    width: 32, height: 32, borderRadius: 7,
-                    background: '#1E2D45',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    background: isEmergency
+                      ? 'rgba(180,30,30,0.85)'
+                      : 'rgba(14,28,46,0.75)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: isEmergency
+                      ? '1px solid rgba(255,120,120,0.3)'
+                      : '1px solid rgba(74,111,165,0.3)',
+                    borderRadius: 8,
+                    padding: '5px 9px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
                   }}>
-                    <Icon size={15} color="#93B4D8" />
+                    <Icon size={13} color={isEmergency ? '#ffaaaa' : '#93B4D8'} />
+                    {isEmergency && (
+                      <span style={{
+                        fontSize: 8.5, fontWeight: 800, color: '#ffaaaa',
+                        letterSpacing: '0.12em', textTransform: 'uppercase',
+                      }}>24/7</span>
+                    )}
                   </div>
-                  {s.emergency && (
-                    <div style={{
-                      position: 'absolute', top: 10, right: 10,
-                      background: '#1E2D45', color: '#93B4D8',
-                      fontSize: 9, fontWeight: 800,
-                      padding: '3px 8px', borderRadius: 20,
-                      letterSpacing: '0.12em', textTransform: 'uppercase',
-                      border: '1px solid rgba(147,180,216,0.3)',
-                    }}>24/7</div>
-                  )}
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: '15px 15px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  {/* Title */}
-                  <p style={{ fontSize: 13.5, fontWeight: 700, color: '#1E2D45', lineHeight: 1.3, marginBottom: 10 }}>
+                <div style={{
+                  padding: '14px 15px 16px',
+                  flex: 1, display: 'flex', flexDirection: 'column',
+                  gap: 8,
+                }}>
+                  {/* Service name */}
+                  <p style={{
+                    fontSize: 13.5, fontWeight: 700, lineHeight: 1.25,
+                    color: isHov ? '#1E2D45' : '#E8F0FA',
+                    transition: 'color 0.2s',
+                  }}>
                     {s.title}
                   </p>
 
-                  {/* Spec chips — Lucide text, no emoji */}
-                  <div style={{
-                    display: 'flex', gap: 6, flexWrap: 'wrap',
-                    paddingBottom: 12, marginBottom: 12,
-                    borderBottom: '1px solid #EEF2F8',
+                  {/* Short description */}
+                  <p style={{
+                    fontSize: 12, lineHeight: 1.6,
+                    color: isHov ? '#5A6A85' : 'rgba(140,168,205,0.75)',
+                    transition: 'color 0.2s',
+                    flex: 1,
                   }}>
-                    {specs.map(sp => (
-                      <span key={sp.label} style={{
-                        fontSize: 10.5, fontWeight: 500, color: '#4A6FA5',
-                        background: '#EBF1FA', borderRadius: 4,
-                        padding: '3px 7px', lineHeight: 1.4,
-                      }}>
-                        {sp.label}
-                      </span>
-                    ))}
-                  </div>
+                    {s.shortDesc}
+                  </p>
 
-                  {/* CTA row */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', gap: 8 }}>
-                    <button onClick={() => goTo('#contact')} className="btn btn-navy"
-                      style={{ padding: '8px 14px', fontSize: 11.5, borderRadius: 5 }}>
-                      Book Now
+                  {/* CTA — only shows on hover */}
+                  <div style={{
+                    display: 'flex', gap: 7, marginTop: 4,
+                    opacity: isHov ? 1 : 0,
+                    transform: isHov ? 'translateY(0)' : 'translateY(6px)',
+                    transition: 'opacity 0.2s ease, transform 0.2s ease',
+                  }}>
+                    <button
+                      onClick={e => { e.stopPropagation(); goTo('#contact'); }}
+                      className="btn btn-cta-red"
+                      style={{ flex: 1, padding: '9px 12px', fontSize: 11.5, borderRadius: 7, justifyContent: 'center' }}
+                    >
+                      Book Service
                     </button>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: '#1E2D45', textAlign: 'right' }}>
-                      {price}
-                    </span>
+                    {isEmergency && (
+                      <a
+                        href={PHONE_HREF}
+                        onClick={e => e.stopPropagation()}
+                        className="btn btn-cta-green"
+                        style={{ flex: 1, padding: '9px 12px', fontSize: 11.5, borderRadius: 7, textDecoration: 'none', justifyContent: 'center' }}
+                      >
+                        <Phone size={11} /> Call Now
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>
@@ -167,17 +224,32 @@ export default function ServicesSection() {
           })}
         </div>
 
-        {/* Bottom CTA */}
-        <div style={{ marginTop: 48, textAlign: 'center' }}>
-          <button onClick={() => goTo('#contact')} className="btn btn-ghost" style={{ padding: '13px 32px', fontSize: 14, borderRadius: 8 }}>
-            View All Services &amp; Pricing <ArrowUpRight size={15} />
+        {/* ── Bottom CTA strip ── */}
+        <div style={{
+          marginTop: 56,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: 14, flexWrap: 'wrap',
+        }}>
+          <button
+            onClick={() => goTo('#contact')}
+            className="btn btn-cta-red"
+            style={{ padding: '13px 32px', fontSize: 14, borderRadius: 10 }}
+          >
+            Book a Service
           </button>
+          <a
+            href={PHONE_HREF}
+            className="btn btn-cta-green"
+            style={{ padding: '13px 32px', fontSize: 14, borderRadius: 10, textDecoration: 'none' }}
+          >
+            <Phone size={15} /> Call Now — 24/7
+          </a>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 1080px) { .svc-grid { grid-template-columns: repeat(3,1fr) !important; } }
-        @media (max-width: 720px)  { .svc-grid { grid-template-columns: repeat(2,1fr) !important; } }
+        @media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(3,1fr) !important; } }
+        @media (max-width: 760px)  { .svc-grid { grid-template-columns: repeat(2,1fr) !important; } }
         @media (max-width: 480px)  { .svc-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </section>
