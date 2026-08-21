@@ -1,6 +1,6 @@
-import { CheckCircle, Phone } from 'lucide-react';
+import { Fa, Icons } from '../lib/icons';
 
-const PHONE = '(555) 123-4567';
+const PHONE      = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 
 const COMMITMENTS = [
@@ -33,23 +33,11 @@ export default function AboutSection() {
                 loading="lazy"
               />
             </div>
-            {/* Stat badge */}
-            <div style={{
-              position: 'absolute', top: 18, right: 18,
-              background: '#1E2D45', borderRadius: 10, padding: '16px 20px',
-              boxShadow: '0 8px 24px rgba(30,45,69,0.35)', textAlign: 'center',
-            }}>
+            <div style={{ position: 'absolute', top: 18, right: 18, background: '#1E2D45', borderRadius: 10, padding: '16px 20px', boxShadow: '0 8px 24px rgba(30,45,69,0.35)', textAlign: 'center' }}>
               <p style={{ fontSize: 28, fontWeight: 800, color: '#fff', lineHeight: 1, marginBottom: 4 }}>500+</p>
-              <p style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.6)', lineHeight: 1.3 }}>Jobs<br/>Completed</p>
+              <p style={{ fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.6)', lineHeight: 1.3 }}>Jobs<br />Completed</p>
             </div>
-            {/* Small inset */}
-            <div style={{
-              position: 'absolute', bottom: -20, left: -20,
-              width: 140, height: 100, borderRadius: 10,
-              border: '4px solid #fff',
-              boxShadow: '0 6px 24px rgba(30,45,69,0.15)',
-              overflow: 'hidden',
-            }} className="inset-img">
+            <div style={{ position: 'absolute', bottom: -20, left: -20, width: 140, height: 100, borderRadius: 10, border: '4px solid #fff', boxShadow: '0 6px 24px rgba(30,45,69,0.15)', overflow: 'hidden' }} className="inset-img">
               <img
                 src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400&q=80&auto=format&fit=crop"
                 alt="Plumber inspecting pipe connections"
@@ -65,36 +53,30 @@ export default function AboutSection() {
               <div style={{ width: 24, height: 2.5, background: '#4A6FA5', borderRadius: 2 }} />
               <span style={{ fontSize: 11, fontWeight: 700, color: '#4A6FA5', letterSpacing: '0.2em', textTransform: 'uppercase' }}>About FlowRight</span>
             </div>
-
-            <h2 style={{
-              fontSize: 'clamp(1.7rem, 2.8vw, 2.4rem)', fontWeight: 800,
-              color: '#1E2D45', lineHeight: 1.1, letterSpacing: '-0.6px', marginBottom: 18,
-            }}>
+            <h2 style={{ fontSize: 'clamp(1.7rem, 2.8vw, 2.4rem)', fontWeight: 800, color: '#1E2D45', lineHeight: 1.1, letterSpacing: '-0.6px', marginBottom: 18 }}>
               Your Local Plumber.<br />Built on Trust.
             </h2>
-
             <p style={{ fontSize: 14.5, color: '#5A6A85', lineHeight: 1.78, marginBottom: 10 }}>
               FlowRight Plumbing was built on a simple idea: do excellent work, treat customers well, and be the company your neighbors call when something goes wrong.
             </p>
             <p style={{ fontSize: 14.5, color: '#5A6A85', lineHeight: 1.78, marginBottom: 28 }}>
               Our licensed team handles everything from a dripping faucet to a full commercial fit-out — with the same care and attention every time.
             </p>
-
             <ul style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 24px', marginBottom: 34 }}>
               {COMMITMENTS.map(c => (
                 <li key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13.5, color: '#3D4F66' }}>
-                  <CheckCircle size={14} style={{ color: '#4A6FA5', flexShrink: 0, marginTop: 3 }} />
+                  <Fa icon={Icons.check} style={{ color: '#4A6FA5', flexShrink: 0, marginTop: 3, fontSize: 13 }} />
                   {c}
                 </li>
               ))}
             </ul>
-
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <button onClick={() => goTo('#contact')} className="btn btn-navy" style={{ padding: '13px 28px', fontSize: 14 }}>
                 Get a Free Quote
               </button>
-              <a href={PHONE_HREF} className="btn btn-outline" style={{ padding: '12px 22px', fontSize: 14, textDecoration: 'none' }}>
-                <Phone size={14} /> {PHONE}
+              <a href={PHONE_HREF} className="btn btn-outline"
+                style={{ padding: '12px 22px', fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 7 }}>
+                <Fa icon={Icons.phone} style={{ fontSize: 13 }} /> {PHONE}
               </a>
             </div>
           </div>

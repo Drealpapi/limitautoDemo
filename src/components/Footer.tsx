@@ -1,13 +1,13 @@
-import { Phone, Mail, MapPin, Droplets } from 'lucide-react';
+import { Fa, Icons } from '../lib/icons';
 
-const PHONE = '(555) 123-4567';
+const PHONE      = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
-const YEAR = new Date().getFullYear();
+const YEAR       = new Date().getFullYear();
 
 const SERVICE_LINKS = [
-  'Emergency Plumbing','Drain Cleaning','Leak Detection & Repair',
-  'Water Heater Services','Pipe Repair & Replacement',
-  'Bathroom & Kitchen Plumbing','Sewer Line Services','Commercial Plumbing',
+  'Emergency Plumbing', 'Drain Cleaning', 'Leak Detection & Repair',
+  'Water Heater Services', 'Pipe Repair & Replacement',
+  'Bathroom & Kitchen Plumbing', 'Sewer Line Services', 'Commercial Plumbing',
 ];
 
 const COMPANY_LINKS = [
@@ -41,84 +41,59 @@ export default function Footer() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
               <div style={{
-                width: 34, height: 34, borderRadius: 8, background: '#1E2D45',
+                width: 34, height: 34, borderRadius: 8, background: '#2563EB',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0, border: '1px solid rgba(74,111,165,0.4)',
+                flexShrink: 0, boxShadow: '0 2px 10px rgba(37,99,235,0.35)',
               }}>
-                <Droplets size={16} color="#93B4D8" />
+                <Fa icon={Icons.droplet} style={{ fontSize: 15, color: '#fff' }} />
               </div>
               <span style={{ fontWeight: 800, fontSize: 15, color: '#fff', letterSpacing: '-0.3px' }}>
                 FlowRight<span style={{ fontWeight: 300, color: '#6B8CAE', marginLeft: 3 }}>Plumbing</span>
               </span>
             </div>
+
             <p style={{ fontSize: 13, color: '#4A5A6E', lineHeight: 1.75, maxWidth: 230, marginBottom: 20 }}>
               Reliable plumbing and drain services for homes and businesses. Available 24/7.
             </p>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
-              {[
-                { Icon: Phone, href: PHONE_HREF, text: PHONE },
-                { Icon: Mail,  href: 'mailto:service@flowrightplumbing.com', text: 'service@flowrightplumbing.com' },
-              ].map(({ Icon, href, text }) => (
-                <a key={text} href={href} style={{
-                  display: 'flex', alignItems: 'center', gap: 8,
-                  fontSize: 13, color: '#4A5A6E', textDecoration: 'none',
-                  transition: 'color 0.15s',
-                }}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#93B4D8')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#4A5A6E')}
-                >
-                  <Icon size={12} color="#6B8CAE" /> {text}
-                </a>
-              ))}
+              <a href={PHONE_HREF} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#4A5A6E', textDecoration: 'none', transition: 'color 0.15s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#93B4D8')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#4A5A6E')}
+              >
+                <Fa icon={Icons.phone} style={{ fontSize: 12, color: '#6B8CAE' }} /> {PHONE}
+              </a>
+              <a href="mailto:service@flowrightplumbing.com" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#4A5A6E', textDecoration: 'none', transition: 'color 0.15s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#93B4D8')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#4A5A6E')}
+              >
+                <Fa icon={Icons.envelope} style={{ fontSize: 12, color: '#6B8CAE' }} /> service@flowrightplumbing.com
+              </a>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: '#4A5A6E' }}>
-                <MapPin size={12} color="#6B8CAE" style={{ flexShrink: 0, marginTop: 2 }} />
-                Your City, State [Replace]
+                <Fa icon={Icons.location} style={{ fontSize: 12, color: '#6B8CAE', flexShrink: 0, marginTop: 2 }} />
+                Greater Toronto Area, ON
               </div>
             </div>
 
-            {/* Social links */}
+            {/* Social icons */}
             <div style={{ display: 'flex', gap: 10 }}>
-              <a
-                href="https://www.linkedin.com/company/flowrightplumbing"
-                target="_blank"
-                rel="noopener noreferrer"
+              <a href="https://www.linkedin.com/company/flowrightplumbing"
+                target="_blank" rel="noopener noreferrer"
                 aria-label="FlowRight Plumbing on LinkedIn"
-                style={{
-                  width: 36, height: 36, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#6B8CAE', textDecoration: 'none',
-                  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-                }}
+                style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B8CAE', textDecoration: 'none', transition: 'background 0.15s, color 0.15s, border-color 0.15s' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0A66C2'; el.style.color = '#fff'; el.style.borderColor = '#0A66C2'; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.06)'; el.style.color = '#6B8CAE'; el.style.borderColor = 'rgba(255,255,255,0.1)'; }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                  <rect x="2" y="9" width="4" height="12"/>
-                  <circle cx="4" cy="4" r="2"/>
-                </svg>
+                <Fa icon={Icons.linkedin} style={{ fontSize: 15 }} />
               </a>
-              <a
-                href="https://www.facebook.com/flowrightplumbing"
-                target="_blank"
-                rel="noopener noreferrer"
+              <a href="https://www.facebook.com/flowrightplumbing"
+                target="_blank" rel="noopener noreferrer"
                 aria-label="FlowRight Plumbing on Facebook"
-                style={{
-                  width: 36, height: 36, borderRadius: 8,
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#6B8CAE', textDecoration: 'none',
-                  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
-                }}
+                style={{ width: 36, height: 36, borderRadius: 8, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B8CAE', textDecoration: 'none', transition: 'background 0.15s, color 0.15s, border-color 0.15s' }}
                 onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#1877F2'; el.style.color = '#fff'; el.style.borderColor = '#1877F2'; }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.06)'; el.style.color = '#6B8CAE'; el.style.borderColor = 'rgba(255,255,255,0.1)'; }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                </svg>
+                <Fa icon={Icons.facebook} style={{ fontSize: 15 }} />
               </a>
             </div>
           </div>
@@ -171,20 +146,11 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Emergency card */}
-            <div style={{
-              marginTop: 22,
-              background: 'rgba(74,111,165,0.08)',
-              border: '1px solid rgba(74,111,165,0.18)',
-              borderRadius: 10, padding: '15px 16px',
-            }}>
+            <div style={{ marginTop: 22, background: 'rgba(74,111,165,0.08)', border: '1px solid rgba(74,111,165,0.18)', borderRadius: 10, padding: '15px 16px' }}>
               <p style={{ fontSize: 10, fontWeight: 700, color: '#6B8CAE', letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 6 }}>
                 Emergency?
               </p>
-              <a href={PHONE_HREF} style={{
-                fontSize: 14, fontWeight: 700, color: '#fff',
-                textDecoration: 'none', display: 'block', marginBottom: 3, transition: 'color 0.15s',
-              }}
+              <a href={PHONE_HREF} style={{ fontSize: 14, fontWeight: 700, color: '#fff', textDecoration: 'none', display: 'block', marginBottom: 3, transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#93B4D8')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#fff')}
               >
@@ -196,7 +162,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
+      {/* Bottom bar */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{
           maxWidth: 1200, margin: '0 auto', padding: '18px 32px',
@@ -207,7 +173,7 @@ export default function Footer() {
             © {YEAR} FlowRight Plumbing. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: 22 }}>
-            {['Privacy Policy','Terms of Service','Licensing'].map(l => (
+            {['Privacy Policy', 'Terms of Service', 'Licensing'].map(l => (
               <button key={l} style={{ ...lnk, fontSize: 12, color: '#3A4A5E' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#93B4D8')}
                 onMouseLeave={e => (e.currentTarget.style.color = '#3A4A5E')}
@@ -218,8 +184,8 @@ export default function Footer() {
       </div>
 
       <style>{`
-        @media (max-width: 960px)  { .footer-cols { grid-template-columns: 1fr 1fr !important; gap: 40px !important; } }
-        @media (max-width: 480px)  { .footer-cols { grid-template-columns: 1fr !important; } }
+        @media (max-width: 960px) { .footer-cols { grid-template-columns: 1fr 1fr !important; gap: 40px !important; } }
+        @media (max-width: 480px) { .footer-cols { grid-template-columns: 1fr !important; } }
       `}</style>
     </footer>
   );

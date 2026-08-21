@@ -1,4 +1,4 @@
-import { MapPin, Phone } from 'lucide-react';
+import { Fa, Icons } from '../lib/icons';
 
 const PHONE      = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
@@ -37,34 +37,25 @@ export default function ServiceAreaSection() {
                 Where We Work
               </span>
             </div>
-
-            <h2 style={{
-              fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', fontWeight: 800,
-              color: '#0C1829', lineHeight: 1.08, letterSpacing: '-0.6px', marginBottom: 16,
-            }}>
+            <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', fontWeight: 800, color: '#0C1829', lineHeight: 1.08, letterSpacing: '-0.6px', marginBottom: 16 }}>
               Serving Communities<br />Across Ontario
             </h2>
-
             <p style={{ fontSize: 14.5, color: '#5A6A85', lineHeight: 1.78, marginBottom: 28, maxWidth: 420 }}>
               We provide residential and commercial plumbing services across the Greater Toronto Area and surrounding Ontario cities. Not sure if we cover you? Just call.
             </p>
 
-            {/* Area chips */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
               {areas.map(a => (
-                <span
-                  key={a.name}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    fontSize: 12.5, fontWeight: a.primary ? 600 : 400,
-                    padding: '7px 13px', borderRadius: 6,
-                    background: a.primary ? '#EBF3FF' : '#fff',
-                    border: `1px solid ${a.primary ? '#BFDBFE' : '#E2E8F0'}`,
-                    color: a.primary ? '#1D4ED8' : '#5A6A85',
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  <MapPin size={10} />
+                <span key={a.name} style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  fontSize: 12.5, fontWeight: a.primary ? 600 : 400,
+                  padding: '7px 13px', borderRadius: 6,
+                  background: a.primary ? '#EBF3FF' : '#fff',
+                  border: `1px solid ${a.primary ? '#BFDBFE' : '#E2E8F0'}`,
+                  color: a.primary ? '#1D4ED8' : '#5A6A85',
+                  transition: 'all 0.15s',
+                }}>
+                  <Fa icon={Icons.mapPin} style={{ fontSize: 10, color: a.primary ? '#1D4ED8' : '#94A3B8' }} />
                   {a.name}
                 </span>
               ))}
@@ -75,18 +66,12 @@ export default function ServiceAreaSection() {
             </p>
 
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <a
-                href={PHONE_HREF}
-                className="btn btn-navy"
-                style={{ padding: '12px 24px', fontSize: 13.5, borderRadius: 8, textDecoration: 'none' }}
-              >
-                <Phone size={14} /> Call {PHONE}
+              <a href={PHONE_HREF} className="btn btn-navy"
+                style={{ padding: '12px 24px', fontSize: 13.5, borderRadius: 8, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Fa icon={Icons.phone} style={{ fontSize: 13 }} /> Call {PHONE}
               </a>
-              <button
-                onClick={() => goTo('#contact')}
-                className="btn btn-outline"
-                style={{ padding: '12px 24px', fontSize: 13.5, borderRadius: 8 }}
-              >
+              <button onClick={() => goTo('#contact')} className="btn btn-outline"
+                style={{ padding: '12px 24px', fontSize: 13.5, borderRadius: 8 }}>
                 Check My Area
               </button>
             </div>
@@ -94,30 +79,17 @@ export default function ServiceAreaSection() {
 
           {/* Right: map placeholder */}
           <div style={{
-            background: '#EBF1FA',
-            border: '1px solid #C7D7F0',
-            borderRadius: 16,
-            minHeight: 380,
-            display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
+            background: '#EBF1FA', border: '1px solid #C7D7F0',
+            borderRadius: 16, minHeight: 380,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: 16, padding: 40, position: 'relative', overflow: 'hidden',
           }}>
-            <div style={{
-              position: 'absolute', inset: 0, opacity: 0.04,
-              backgroundImage: 'radial-gradient(circle, #2563EB 1px, transparent 1px)',
-              backgroundSize: '26px 26px',
-            }} aria-hidden="true" />
-            <div style={{
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'rgba(37,99,235,0.12)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <MapPin size={26} color="#2563EB" />
+            <div style={{ position: 'absolute', inset: 0, opacity: 0.04, backgroundImage: 'radial-gradient(circle, #2563EB 1px, transparent 1px)', backgroundSize: '26px 26px' }} aria-hidden="true" />
+            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(37,99,235,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Fa icon={Icons.mapPin} style={{ fontSize: 24, color: '#2563EB' }} />
             </div>
             <div style={{ textAlign: 'center', position: 'relative' }}>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#0C1829', marginBottom: 8 }}>
-                Greater Toronto Area
-              </p>
+              <p style={{ fontSize: 16, fontWeight: 700, color: '#0C1829', marginBottom: 8 }}>Greater Toronto Area</p>
               <p style={{ fontSize: 13, color: '#64748B', maxWidth: 260, lineHeight: 1.65 }}>
                 Replace with a Google Maps embed showing your Ontario coverage area.
               </p>
