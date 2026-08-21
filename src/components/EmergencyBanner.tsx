@@ -1,67 +1,43 @@
-import { Phone, Zap } from 'lucide-react';
+import { Phone, AlertCircle } from 'lucide-react';
 
 const PHONE = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 
 export default function EmergencyBanner() {
   return (
-    <section
-      style={{
-        background: 'linear-gradient(135deg, #0D1F3C 0%, #1A3260 100%)',
-        padding: '0',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-      aria-label="24/7 Emergency Plumbing"
-    >
-      {/* Subtle texture */}
+    <section style={{ background: '#1E2D45', padding: '0' }} aria-label="24/7 Emergency Plumbing">
       <div style={{
-        position: 'absolute', inset: 0,
-        backgroundImage: 'radial-gradient(circle at 80% 50%, rgba(27,111,219,0.15) 0%, transparent 60%)',
-        pointerEvents: 'none',
-      }} aria-hidden="true" />
-
-      <div style={{
-        maxWidth: 1160, margin: '0 auto', padding: '22px 32px',
+        maxWidth: 1200, margin: '0 auto', padding: '20px 32px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        gap: 20, flexWrap: 'wrap', position: 'relative',
+        gap: 20, flexWrap: 'wrap',
       }}>
-        {/* Left */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
-            width: 44, height: 44, borderRadius: 12, flexShrink: 0,
-            background: 'rgba(245,124,43,0.18)',
-            border: '1px solid rgba(245,124,43,0.3)',
+            width: 40, height: 40, borderRadius: 8, flexShrink: 0,
+            background: 'rgba(255,255,255,0.1)',
+            border: '1px solid rgba(255,255,255,0.15)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <Zap size={20} color="#F57C2B" />
+            <AlertCircle size={19} color="#93B4D8" />
           </div>
           <div>
-            <p style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 3 }}>
-              Emergency Plumbing
+            <p style={{ fontSize: 10.5, fontWeight: 700, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 2 }}>
+              24/7 Emergency
             </p>
-            <p style={{ fontSize: 15.5, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>
               Plumbing problems don't wait.{' '}
-              <span style={{ color: '#93C5FD', fontWeight: 400 }}>Neither do we.</span>
+              <span style={{ color: '#93B4D8', fontWeight: 400 }}>Neither do we.</span>
             </p>
           </div>
         </div>
 
-        {/* Right */}
         <a
           href={PHONE_HREF}
-          className="btn-glass btn-orange"
-          style={{ padding: '13px 28px', fontSize: 14, borderRadius: 10, textDecoration: 'none' }}
-          aria-label={`Emergency line: ${PHONE}`}
+          className="btn btn-ghost"
+          style={{ padding: '11px 24px', fontSize: 14, textDecoration: 'none', borderRadius: 6 }}
+          aria-label={`Call emergency line: ${PHONE}`}
         >
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <span style={{
-              position: 'absolute', inset: -4, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.3)',
-              animation: 'pulse-dot 1.6s ease-in-out infinite',
-            }} />
-            <Phone size={15} style={{ position: 'relative' }} />
-          </div>
+          <Phone size={15} />
           {PHONE}
         </a>
       </div>

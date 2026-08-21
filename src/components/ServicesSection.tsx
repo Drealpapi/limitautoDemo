@@ -1,21 +1,34 @@
 import { useState } from 'react';
-import { MapPin, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Zap, Waves, Droplets, Flame, Wrench, ShowerHead, GitMerge, Building2 } from 'lucide-react';
 import { services } from '../data/services';
 
-function goTo(anchor: string) {
-  const el = document.querySelector(anchor);
-  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+function goTo(a: string) {
+  const el = document.querySelector(a);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: 'smooth' });
 }
 
-const SPECS: Record<string, { icon: string; text: string }[]> = {
-  'emergency':        [{ icon: '⚡', text: '24/7' }, { icon: '🔧', text: 'Any issue' }, { icon: '⏱', text: 'Fast response' }],
-  'drain-cleaning':   [{ icon: '🌀', text: 'Hydro-jet' }, { icon: '📷', text: 'Camera' }, { icon: '✅', text: 'Guaranteed' }],
-  'leak-detection':   [{ icon: '🔍', text: 'Non-invasive' }, { icon: '💧', text: 'Slab leaks' }, { icon: '🔧', text: 'Full repair' }],
-  'water-heater':     [{ icon: '🔥', text: 'Tank/Tankless' }, { icon: '⚡', text: 'Gas/Electric' }, { icon: '📅', text: 'Same day' }],
-  'pipe-repair':      [{ icon: '🔩', text: 'Copper/PEX' }, { icon: '🏠', text: 'Full repipe' }, { icon: '🛡', text: 'Warrantied' }],
-  'bathroom-kitchen': [{ icon: '🚿', text: 'Fixtures' }, { icon: '🍽', text: 'Kitchen' }, { icon: '🔧', text: 'Remodel' }],
-  'sewer-line':       [{ icon: '📷', text: 'Inspection' }, { icon: '💦', text: 'Hydro-jet' }, { icon: '🚫', text: 'Root removal' }],
-  'commercial':       [{ icon: '🏢', text: 'All sizes' }, { icon: '📋', text: 'Contracted' }, { icon: '⚡', text: 'Priority' }],
+/* Lucide icon map — replaces all emoji specs */
+const ICON_MAP: Record<string, React.ElementType> = {
+  'emergency':        Zap,
+  'drain-cleaning':   Waves,
+  'leak-detection':   Droplets,
+  'water-heater':     Flame,
+  'pipe-repair':      Wrench,
+  'bathroom-kitchen': ShowerHead,
+  'sewer-line':       GitMerge,
+  'commercial':       Building2,
+};
+
+/* Spec rows — text only, no emoji */
+const SPECS: Record<string, { label: string }[]> = {
+  'emergency':        [{ label: '24/7 Response' }, { label: 'Any Issue' }, { label: 'Fast Dispatch' }],
+  'drain-cleaning':   [{ label: 'Hydro-Jet' }, { label: 'Camera Inspect' }, { label: 'Guaranteed' }],
+  'leak-detection':   [{ label: 'Non-Invasive' }, { label: 'Slab Leaks' }, { label: 'Full Repair' }],
+  'water-heater':     [{ label: 'Tank/Tankless' }, { label: 'Gas & Electric' }, { label: 'Same Day' }],
+  'pipe-repair':      [{ label: 'Copper / PEX' }, { label: 'Full Repipe' }, { label: 'Warranted' }],
+  'bathroom-kitchen': [{ label: 'All Fixtures' }, { label: 'Kitchen Lines' }, { label: 'Remodel Ready' }],
+  'sewer-line':       [{ label: 'Video Inspect' }, { label: 'Hydro-Jet' }, { label: 'Root Removal' }],
+  'commercial':       [{ label: 'All Sizes' }, { label: 'Contracted' }, { label: 'Priority Service' }],
 };
 
 const PRICE: Record<string, string> = {
@@ -29,44 +42,42 @@ export default function ServicesSection() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <section id="services" style={{ background: '#0C0C0C', padding: '88px 0 96px' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 32px' }}>
+    <section id="services" style={{ background: '#111B28', padding: '88px 0 96px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 32px' }}>
 
-        {/* ── Header ── */}
+        {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-            <div style={{ width: 32, height: 2, background: 'rgba(255,255,255,0.5)', borderRadius: 2 }} />
-            <span style={{ fontSize: 11, fontWeight: 700, color: '#8BA8CC', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            <div style={{ width: 28, height: 2, background: '#4A6FA5', borderRadius: 2 }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#6B8CAE', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
               What We Do
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
             <h2 style={{
-              fontSize: 'clamp(1.85rem, 3.5vw, 2.7rem)',
-              fontWeight: 800, color: '#fff',
-              lineHeight: 1.08, letterSpacing: '-0.8px', maxWidth: 520,
+              fontSize: 'clamp(1.85rem, 3.5vw, 2.7rem)', fontWeight: 800,
+              color: '#fff', lineHeight: 1.08, letterSpacing: '-0.8px', maxWidth: 520,
             }}>
               Complete Plumbing Services
             </h2>
-            <button
-              onClick={() => goTo('#contact')}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 8,
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 13.5, fontWeight: 500, color: 'rgba(255,255,255,0.6)',
-                paddingBottom: 4, transition: 'color 0.15s',
-              }}
+            <button onClick={() => goTo('#contact')} style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: 13.5, fontWeight: 500, color: '#6B8CAE',
+              paddingBottom: 4, transition: 'color 0.15s',
+            }}
               onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.6)')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#6B8CAE')}
             >
               Request Any Service <ArrowRight size={15} />
             </button>
           </div>
         </div>
 
-        {/* ── Grid ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }} className="svc-grid">
+        {/* Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }} className="svc-grid">
           {services.map(s => {
+            const Icon = ICON_MAP[s.id] ?? Wrench;
             const specs = SPECS[s.id] ?? [];
             const price = PRICE[s.id] ?? 'Free Quote';
             const isHov = hovered === s.id;
@@ -77,78 +88,76 @@ export default function ServicesSection() {
                 onMouseEnter={() => setHovered(s.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  background: '#fff',
-                  borderRadius: 14,
-                  display: 'flex', flexDirection: 'column',
-                  overflow: 'hidden',
-                  transform: isHov ? 'translateY(-6px)' : 'translateY(0)',
+                  background: '#fff', borderRadius: 10,
+                  display: 'flex', flexDirection: 'column', overflow: 'hidden',
+                  transform: isHov ? 'translateY(-5px)' : 'translateY(0)',
                   boxShadow: isHov
-                    ? '0 20px 56px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06)'
-                    : '0 2px 12px rgba(0,0,0,0.25)',
+                    ? '0 18px 48px rgba(0,0,0,0.35)'
+                    : '0 2px 10px rgba(0,0,0,0.22)',
                   transition: 'transform 0.22s ease, box-shadow 0.22s ease',
                 }}
               >
                 {/* Image */}
-                <div style={{ position: 'relative', height: 175, overflow: 'hidden', flexShrink: 0 }}>
-                  <img
-                    src={s.image} alt={s.title} loading="lazy"
-                    style={{
-                      width: '100%', height: '100%', objectFit: 'cover', display: 'block',
-                      transform: isHov ? 'scale(1.07)' : 'scale(1)',
-                      transition: 'transform 0.5s ease',
-                    }}
-                  />
-                  {/* Bottom fade */}
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0, height: 60,
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)',
+                <div style={{ position: 'relative', height: 168, overflow: 'hidden', flexShrink: 0 }}>
+                  <img src={s.image} alt={s.title} loading="lazy" style={{
+                    width: '100%', height: '100%', objectFit: 'cover', display: 'block',
+                    transform: isHov ? 'scale(1.06)' : 'scale(1)',
+                    transition: 'transform 0.45s ease',
                   }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(17,27,40,0.4) 0%, transparent 55%)' }} />
+                  {/* Icon badge top-left */}
+                  <div style={{
+                    position: 'absolute', top: 10, left: 10,
+                    width: 32, height: 32, borderRadius: 7,
+                    background: '#1E2D45',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                  }}>
+                    <Icon size={15} color="#93B4D8" />
+                  </div>
                   {s.emergency && (
                     <div style={{
                       position: 'absolute', top: 10, right: 10,
-                      background: 'linear-gradient(135deg,#F57C2B,#FF9A4A)',
-                      color: '#fff', fontSize: 9, fontWeight: 800,
-                      padding: '4px 9px', borderRadius: 20,
-                      letterSpacing: '0.1em', textTransform: 'uppercase',
-                      boxShadow: '0 2px 8px rgba(245,124,43,0.5)',
+                      background: '#1E2D45', color: '#93B4D8',
+                      fontSize: 9, fontWeight: 800,
+                      padding: '3px 8px', borderRadius: 20,
+                      letterSpacing: '0.12em', textTransform: 'uppercase',
+                      border: '1px solid rgba(147,180,216,0.3)',
                     }}>24/7</div>
                   )}
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: '16px 16px 20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  {/* Title row */}
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 7, marginBottom: 11 }}>
-                    <MapPin size={13} style={{ color: '#1B6FDB', flexShrink: 0, marginTop: 1 }} />
-                    <span style={{ fontSize: 13.5, fontWeight: 700, color: '#111', lineHeight: 1.3 }}>
-                      {s.title}
-                    </span>
-                  </div>
+                <div style={{ padding: '15px 15px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  {/* Title */}
+                  <p style={{ fontSize: 13.5, fontWeight: 700, color: '#1E2D45', lineHeight: 1.3, marginBottom: 10 }}>
+                    {s.title}
+                  </p>
 
-                  {/* Specs */}
+                  {/* Spec chips — Lucide text, no emoji */}
                   <div style={{
-                    display: 'flex', gap: 10, flexWrap: 'wrap',
-                    paddingBottom: 12, marginBottom: 14,
-                    borderBottom: '1px solid #F0F0F0',
+                    display: 'flex', gap: 6, flexWrap: 'wrap',
+                    paddingBottom: 12, marginBottom: 12,
+                    borderBottom: '1px solid #EEF2F8',
                   }}>
                     {specs.map(sp => (
-                      <div key={sp.text} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <span style={{ fontSize: 11 }}>{sp.icon}</span>
-                        <span style={{ fontSize: 11, color: '#888', fontWeight: 400 }}>{sp.text}</span>
-                      </div>
+                      <span key={sp.label} style={{
+                        fontSize: 10.5, fontWeight: 500, color: '#4A6FA5',
+                        background: '#EBF1FA', borderRadius: 4,
+                        padding: '3px 7px', lineHeight: 1.4,
+                      }}>
+                        {sp.label}
+                      </span>
                     ))}
                   </div>
 
-                  {/* Bottom CTA row */}
+                  {/* CTA row */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', gap: 8 }}>
-                    <button
-                      onClick={() => goTo('#contact')}
-                      className="btn-glass btn-primary"
-                      style={{ padding: '9px 16px', fontSize: 11.5, borderRadius: 7, fontWeight: 700, letterSpacing: '0.03em' }}
-                    >
+                    <button onClick={() => goTo('#contact')} className="btn btn-navy"
+                      style={{ padding: '8px 14px', fontSize: 11.5, borderRadius: 5 }}>
                       Book Now
                     </button>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: '#111', letterSpacing: '-0.2px', textAlign: 'right' }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#1E2D45', textAlign: 'right' }}>
                       {price}
                     </span>
                   </div>
@@ -158,15 +167,10 @@ export default function ServicesSection() {
           })}
         </div>
 
-        {/* Bottom CTA row */}
-        <div style={{ marginTop: 52, textAlign: 'center' }}>
-          <button
-            onClick={() => goTo('#contact')}
-            className="btn-glass btn-ghost-dark"
-            style={{ padding: '14px 36px', fontSize: 14, borderRadius: 10 }}
-          >
-            View All Services & Pricing
-            <ArrowUpRight size={15} />
+        {/* Bottom CTA */}
+        <div style={{ marginTop: 48, textAlign: 'center' }}>
+          <button onClick={() => goTo('#contact')} className="btn btn-ghost" style={{ padding: '13px 32px', fontSize: 14, borderRadius: 8 }}>
+            View All Services &amp; Pricing <ArrowUpRight size={15} />
           </button>
         </div>
       </div>
