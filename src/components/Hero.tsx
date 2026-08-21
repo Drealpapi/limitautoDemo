@@ -14,19 +14,23 @@ function goTo(a: string) {
 
 const TRUST = [
   { icon: ShieldCheck, label: 'Licensed & Insured' },
-  { icon: Clock,       label: 'Fast Response'       },
-  { icon: Award,       label: 'Quality Work'         },
+  { icon: Clock,       label: 'Fast Response'      },
+  { icon: Award,       label: 'Quality Work'        },
 ];
 
-/* Fake avatar initials for social proof */
-const AVATARS = ['MR', 'JL', 'SA', 'DK'];
-const AVATAR_COLORS = ['#2563EB', '#1E3A5F', '#3B82F6', '#1D4ED8'];
+/* Real face photos from Unsplash for the review panel */
+const AVATAR_PHOTOS = [
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80&auto=format&fit=crop&face',
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80&auto=format&fit=crop&face',
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80&auto=format&fit=crop&face',
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80&auto=format&fit=crop&face',
+];
 
 export default function Hero() {
   const [muted,      setMuted]      = useState(true);
   const [videoReady, setVideoReady] = useState(false);
-  const deskRef   = useRef<HTMLVideoElement>(null);
-  const mobRef    = useRef<HTMLVideoElement>(null);
+  const deskRef = useRef<HTMLVideoElement>(null);
+  const mobRef  = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     [deskRef, mobRef].forEach(r => r.current?.play().catch(() => {}));
@@ -44,71 +48,68 @@ export default function Hero() {
       aria-label="Hero — FlowRight Plumbing"
       style={{ position: 'relative', background: '#0C1829', overflow: 'hidden', paddingTop: 68 }}
     >
-      {/* ═══════════════════════════════════════
-          DESKTOP  ≥861px
-      ═══════════════════════════════════════ */}
+      {/* ════════════════════════════════════════
+          DESKTOP  ≥ 861px
+      ════════════════════════════════════════ */}
       <div
         className="hero-desktop"
         style={{
           display: 'grid',
-          gridTemplateColumns: '44% 56%',
+          gridTemplateColumns: '40% 60%',
           minHeight: 'calc(94vh - 68px)',
-          maxHeight: 900,
+          maxHeight: 920,
           position: 'relative',
         }}
       >
-        {/* ── LEFT: copy ── */}
+        {/* ─────────────────────────────────────
+            LEFT — copy
+        ───────────────────────────────────── */}
         <div style={{
-          position: 'relative', zIndex: 3,
-          padding: 'clamp(56px,8vh,96px) clamp(36px,4vw,72px) 56px clamp(36px,4.5vw,80px)',
+          position: 'relative', zIndex: 4,
+          padding: 'clamp(52px,7vh,88px) clamp(20px,2.5vw,44px) 52px clamp(32px,4.5vw,80px)',
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          /* The navy background of this column is the hero bg — no extra bg needed */
         }}>
 
-          {/* Emergency label — small, professional */}
+          {/* 24/7 label */}
           <div
+            aria-label="24/7 Emergency Plumbing available"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              marginBottom: 28, width: 'fit-content',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              marginBottom: 24, width: 'fit-content',
               animation: 'fadeInUp 0.4s ease both',
             }}
-            aria-label="24/7 Emergency Plumbing available"
           >
             <span style={{
               width: 7, height: 7, borderRadius: '50%',
               background: '#22C55E', flexShrink: 0,
-              boxShadow: '0 0 0 3px rgba(34,197,94,0.2)',
+              boxShadow: '0 0 0 3px rgba(34,197,94,0.22)',
               animation: 'pulse-dot 2s ease-in-out infinite',
             }} />
             <span style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: 'rgba(200,220,245,0.75)',
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
+              textTransform: 'uppercase', color: 'rgba(190,215,245,0.7)',
             }}>
               24/7 Emergency Plumbing
             </span>
           </div>
 
           {/* Headline */}
-          <h1
-            style={{
-              fontSize: 'clamp(2.6rem, 4.6vw, 5rem)',
-              fontWeight: 800,
-              lineHeight: 1.0,
-              letterSpacing: '-2.5px',
-              marginBottom: 22,
-              animation: 'fadeInUp 0.5s ease 0.08s both',
-            }}
-          >
+          <h1 style={{
+            fontSize: 'clamp(2.7rem, 4.8vw, 5.2rem)',
+            fontWeight: 800, lineHeight: 1.0,
+            letterSpacing: '-2.5px', marginBottom: 22,
+            animation: 'fadeInUp 0.5s ease 0.08s both',
+          }}>
             <span style={{ color: '#F1F5F9', display: 'block' }}>Reliable Plumbing.</span>
             <span style={{ color: '#3B82F6', display: 'block' }}>Done Right.</span>
           </h1>
 
           {/* Description */}
           <p style={{
-            fontSize: 'clamp(15px, 1.3vw, 17px)',
-            color: 'rgba(148,175,210,0.9)',
-            lineHeight: 1.75,
-            maxWidth: 400,
-            marginBottom: 40,
+            fontSize: 'clamp(15px, 1.25vw, 17px)',
+            color: 'rgba(148,175,210,0.88)', lineHeight: 1.78,
+            maxWidth: 390, marginBottom: 38,
             animation: 'fadeInUp 0.5s ease 0.16s both',
           }}>
             Fast, professional plumbing services for homes and businesses — from urgent repairs to complete installations.
@@ -117,26 +118,26 @@ export default function Hero() {
           {/* CTAs */}
           <div style={{
             display: 'flex', gap: 12, flexWrap: 'wrap',
-            marginBottom: 40,
+            marginBottom: 38,
             animation: 'fadeInUp 0.5s ease 0.24s both',
           }}>
             <button
               onClick={() => goTo('#contact')}
-              className="btn btn-cta-red"
-              style={{ padding: '14px 32px', fontSize: 14.5, borderRadius: 8 }}
+              className="btn btn-slate"
+              style={{ padding: '14px 32px', fontSize: 15, borderRadius: 8 }}
             >
               Book a Service <ArrowRight size={15} />
             </button>
             <a
               href={PHONE_HREF}
               className="btn btn-call"
-              style={{ padding: '13px 26px', fontSize: 14.5, borderRadius: 8, textDecoration: 'none' }}
+              style={{ padding: '13px 26px', fontSize: 15, borderRadius: 8, textDecoration: 'none' }}
             >
               <Phone size={15} /> Call Now
             </a>
           </div>
 
-          {/* Trust signals — compact row */}
+          {/* Trust signals */}
           <div style={{
             display: 'flex', gap: 22, flexWrap: 'wrap',
             animation: 'fadeInUp 0.5s ease 0.32s both',
@@ -144,32 +145,81 @@ export default function Hero() {
             {TRUST.map(({ icon: Icon, label }) => (
               <div key={label} style={{
                 display: 'flex', alignItems: 'center', gap: 7,
-                fontSize: 12.5, fontWeight: 500,
-                color: 'rgba(148,175,210,0.8)',
+                fontSize: 12.5, fontWeight: 500, color: 'rgba(148,175,210,0.78)',
               }}>
-                <Icon size={14} color="rgba(59,130,246,0.85)" strokeWidth={2} />
+                <Icon size={14} color="#3B82F6" strokeWidth={2} />
                 {label}
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── RIGHT: video + SVG curve ── */}
-        <div style={{ position: 'relative', overflow: 'hidden' }} aria-hidden="true">
+        {/* ─────────────────────────────────────
+            RIGHT — photo/video with circular clip
+            Uses clip-path for a perfect circular
+            arc on the left edge — blends seamlessly
+            with the navy background, exactly like
+            the reference image.
+        ───────────────────────────────────── */}
+        <div
+          style={{
+            position: 'relative', overflow: 'visible',
+            /*
+              Instead of clip-path (which clips the element and hides overflow),
+              we use an absolutely-positioned SVG overlay ON TOP of the image
+              that paints the navy background color as a large circular arc —
+              exactly matching the reference: a circle whose right arc is visible,
+              sweeping from upper-mid down to lower-mid of the image left edge.
+            */
+          }}
+          aria-hidden="true"
+        >
+          {/* SVG circle arc painted in navy over the left side of the image */}
+          <svg
+            viewBox="0 0 560 780"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: 0, left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 4,
+              pointerEvents: 'none',
+            }}
+          >
+            <defs>
+              <mask id="curveMask">
+                <rect width="560" height="780" fill="white" />
+                {/*
+                  Circle center at cx="-180" — well into the LEFT (navy) column.
+                  Radius 400 — large enough that the RIGHT arc sweeps broadly
+                  across the image left edge, creating a wide visible inward curve
+                  that blends the navy column into the video, matching the reference.
+                */}
+                <circle cx="-180" cy="390" r="400" fill="black" />
+              </mask>
+            </defs>
+            {/* Navy rect — the arc from the circle cut creates the curved right edge */}
+            <rect
+              x="0" y="0" width="320" height="780"
+              fill="#0C1829"
+              mask="url(#curveMask)"
+            />
+          </svg>
 
-          {/* Poster fallback */}
+          {/* Poster — always visible, video fades over it */}
           <img
             src={VIDEO_POSTER} alt=""
             style={{
               position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: '65% center',
-              opacity: videoReady ? 0 : 1,
-              transition: 'opacity 0.8s ease', zIndex: 1,
-              filter: 'brightness(0.68) saturate(0.9)',
+              objectFit: 'cover', objectPosition: '60% center',
+              opacity: 1, zIndex: 1,
+              filter: 'brightness(0.68) saturate(0.88)',
             }}
           />
 
-          {/* Video */}
+          {/* Video — fades in once buffered */}
           <video
             ref={deskRef}
             autoPlay muted loop playsInline
@@ -177,143 +227,102 @@ export default function Hero() {
             onCanPlay={() => setVideoReady(true)}
             style={{
               position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: '65% center', display: 'block',
+              objectFit: 'cover', objectPosition: '60% center', display: 'block',
               opacity: videoReady ? 1 : 0,
-              transition: 'opacity 0.8s ease', zIndex: 1,
+              transition: 'opacity 0.6s ease', zIndex: 2,
               filter: 'brightness(0.7) saturate(1.05) contrast(1.04)',
             }}
           >
             <source src={VIDEO_SRC} type="video/mp4" />
           </video>
 
-          {/* ── SVG CURVED MASK — navy overlaps into photo ── */}
-          {/*
-            The SVG sits on the LEFT edge of the video column.
-            It draws the navy background color as a curved shape
-            that bleeds ~120px into the photo area,
-            creating a smooth cinematic merge.
-          */}
-          <svg
-            viewBox="0 0 200 100"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            style={{
-              position: 'absolute', top: 0, left: 0,
-              width: '36%',        /* how far the curve extends into the photo */
-              height: '100%',
-              zIndex: 3,
-              pointerEvents: 'none',
-            }}
-          >
-            {/* Navy fill — matches hero bg exactly */}
-            <path
-              d="M0,0 L0,100 C40,100 60,50 40,0 Z"
-              fill="#0C1829"
-            />
-          </svg>
-
-          {/* Bottom vignette */}
+          {/* Bottom gradient vignette */}
           <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '38%',
-            zIndex: 2, pointerEvents: 'none',
-            background: 'linear-gradient(to top, rgba(8,14,28,0.75) 0%, transparent 100%)',
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%',
+            zIndex: 3, pointerEvents: 'none',
+            background: 'linear-gradient(to top, rgba(8,14,28,0.82) 0%, transparent 100%)',
           }} />
 
-          {/* Top vignette */}
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: '18%',
-            zIndex: 2, pointerEvents: 'none',
-            background: 'linear-gradient(to bottom, rgba(8,14,28,0.4) 0%, transparent 100%)',
-          }} />
-
-          {/* ── Mute button ── */}
+          {/* Mute button */}
           <button
             onClick={toggleMute}
             aria-label={muted ? 'Unmute video' : 'Mute video'}
             style={{
-              position: 'absolute', bottom: 20, right: 20, zIndex: 10,
+              position: 'absolute', top: 20, right: 20, zIndex: 10,
               width: 36, height: 36, borderRadius: 8,
-              background: 'rgba(8,14,28,0.65)',
+              background: 'rgba(8,14,28,0.6)',
               backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
               border: '1px solid rgba(255,255,255,0.12)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer', transition: 'background 0.18s',
-              color: 'rgba(255,255,255,0.65)',
+              color: 'rgba(255,255,255,0.6)',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(37,99,235,0.5)'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(8,14,28,0.65)'; (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.65)'; }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(37,99,235,0.55)'; (e.currentTarget as HTMLElement).style.color = '#fff'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(8,14,28,0.6)'; (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.6)'; }}
           >
             {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}
           </button>
 
-          {/* ── Review / trust panel — bottom left of photo ── */}
-          <div style={{
-            position: 'absolute', bottom: 28, left: '28%', zIndex: 10,
-            background: 'rgba(8,16,32,0.72)',
-            backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 14,
-            padding: '14px 18px',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-            maxWidth: 280,
-            animation: 'fadeIn 0.7s ease 0.6s both',
-            transition: 'transform 0.22s ease',
-          }}
-            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.transform = 'translateY(0)')}
+          {/* REVIEW PANEL — Tailwind glass, compact like reference */}
+          <div
+            className="backdrop-blur-xl bg-white/10 border border-white/15"
+            style={{
+              position: 'absolute', bottom: 24, left: 20, right: 20,
+              zIndex: 10,
+              borderRadius: 14,
+              padding: '12px 16px',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.5)',
+              display: 'flex', alignItems: 'center',
+              animation: 'fadeIn 0.6s ease 0.55s both',
+            }}
           >
-            {/* Avatars + rating row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              {/* Overlapping avatar circles */}
+            {/* LEFT: avatars + text */}
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10, paddingRight: 16 }}>
               <div style={{ display: 'flex', flexShrink: 0 }}>
-                {AVATARS.map((init, i) => (
-                  <div key={init} style={{
-                    width: 28, height: 28, borderRadius: '50%',
-                    background: AVATAR_COLORS[i],
-                    border: '2px solid rgba(8,16,32,0.85)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 9, fontWeight: 700, color: '#fff',
-                    marginLeft: i === 0 ? 0 : -8,
-                    zIndex: AVATARS.length - i,
-                    position: 'relative',
-                  }}>
-                    {init}
-                  </div>
+                {AVATAR_PHOTOS.map((src, i) => (
+                  <img key={src} src={src} alt="" loading="lazy" style={{
+                    width: 34, height: 34, borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '2px solid rgba(255,255,255,0.2)',
+                    marginLeft: i === 0 ? 0 : -9,
+                    position: 'relative', zIndex: AVATAR_PHOTOS.length - i,
+                    flexShrink: 0,
+                  }} />
                 ))}
               </div>
-
-              {/* Rating */}
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 800, color: '#F1F5F9', lineHeight: 1 }}>4.9</span>
-                  <div style={{ display: 'flex', gap: 1.5 }}>
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={11} color="#F59E0B" fill="#F59E0B" />
-                    ))}
-                  </div>
-                </div>
-                <p style={{ fontSize: 10.5, color: 'rgba(148,175,210,0.75)', fontWeight: 500, marginTop: 1 }}>
-                  700+ Reviews
+                <p style={{ fontSize: 12.5, fontWeight: 700, color: '#F1F5F9', lineHeight: 1.2, marginBottom: 2 }}>
+                  Trusted by 2,000+
+                </p>
+                <p style={{ fontSize: 11, color: 'rgba(200,220,245,0.6)', lineHeight: 1.35 }}>
+                  homeowners &amp; businesses across the city.
                 </p>
               </div>
             </div>
 
-            <p style={{
-              fontSize: 11.5, color: 'rgba(148,175,210,0.8)',
-              lineHeight: 1.5, fontWeight: 400,
-            }}>
-              Trusted by 2,000+ homeowners &amp; businesses
-            </p>
+            {/* Divider */}
+            <div style={{ width: 1, alignSelf: 'stretch', background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+
+            {/* RIGHT: 4.9 stars — zero wasted space */}
+            <div style={{ flexShrink: 0, paddingLeft: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+                <span style={{ fontSize: 26, fontWeight: 800, color: '#F1F5F9', lineHeight: 1, letterSpacing: '-0.5px' }}>4.9</span>
+                <div style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                  {[...Array(5)].map((_, i) => <Star key={i} size={13} color="#F59E0B" fill="#F59E0B" />)}
+                </div>
+              </div>
+              <p style={{ fontSize: 11, color: 'rgba(200,220,245,0.6)', fontWeight: 500 }}>700+ Reviews</p>
+            </div>
           </div>
         </div>
       </div>
 
 
-      {/* ═══════════════════════════════════════
-          MOBILE  ≤860px
-          Stack layout: content on dark bg,
-          then image below with rating overlay
-      ═══════════════════════════════════════ */}
+      {/* ════════════════════════════════════════
+          MOBILE  ≤ 860px
+          Content above, image below.
+          Review panel inside the image.
+      ════════════════════════════════════════ */}
       <div
         className="hero-mobile"
         style={{
@@ -322,27 +331,28 @@ export default function Hero() {
           minHeight: 'calc(100svh - 68px)',
         }}
       >
-        {/* ── Top: text content ── */}
+        {/* ── Content ── */}
         <div style={{
-          padding: 'clamp(32px,6vw,52px) 20px 28px',
+          padding: 'clamp(28px,5vw,48px) 20px 24px',
           display: 'flex', flexDirection: 'column',
           position: 'relative', zIndex: 2,
         }}>
-          {/* Emergency label */}
+
+          {/* Label */}
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            marginBottom: 20, width: 'fit-content',
+            marginBottom: 18, width: 'fit-content',
             animation: 'fadeInUp 0.4s ease both',
           }}>
             <span style={{
               width: 6, height: 6, borderRadius: '50%',
               background: '#22C55E', flexShrink: 0,
-              boxShadow: '0 0 0 3px rgba(34,197,94,0.18)',
+              boxShadow: '0 0 0 3px rgba(34,197,94,0.2)',
               animation: 'pulse-dot 2s ease-in-out infinite',
             }} />
             <span style={{
-              fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: 'rgba(200,220,245,0.7)',
+              fontSize: 10.5, fontWeight: 700, letterSpacing: '0.15em',
+              textTransform: 'uppercase', color: 'rgba(190,215,245,0.65)',
             }}>
               24/7 Emergency Plumbing
             </span>
@@ -350,7 +360,7 @@ export default function Hero() {
 
           {/* Headline */}
           <h1 style={{
-            fontSize: 'clamp(2.2rem, 10vw, 3rem)',
+            fontSize: 'clamp(2.1rem, 9.5vw, 2.9rem)',
             fontWeight: 800, lineHeight: 1.04,
             letterSpacing: '-2px', marginBottom: 14,
             animation: 'fadeInUp 0.45s ease 0.08s both',
@@ -360,21 +370,21 @@ export default function Hero() {
           </h1>
 
           <p style={{
-            fontSize: 15, color: 'rgba(148,175,210,0.88)',
-            lineHeight: 1.7, marginBottom: 26,
+            fontSize: 15, color: 'rgba(148,175,210,0.85)',
+            lineHeight: 1.7, marginBottom: 24,
             animation: 'fadeInUp 0.45s ease 0.16s both',
           }}>
             Fast, professional plumbing for homes and businesses — available when you need us.
           </p>
 
-          {/* CTAs — stacked, full-width, large tap targets */}
+          {/* CTAs */}
           <div style={{
-            display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24,
+            display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 22,
             animation: 'fadeInUp 0.45s ease 0.24s both',
           }}>
             <button
               onClick={() => goTo('#contact')}
-              className="btn btn-cta-red"
+              className="btn btn-slate"
               style={{ width: '100%', padding: '16px', fontSize: 16, borderRadius: 10, minHeight: 54, justifyContent: 'center' }}
             >
               Book a Service <ArrowRight size={16} />
@@ -382,47 +392,46 @@ export default function Hero() {
             <a
               href={PHONE_HREF}
               className="btn btn-call"
-              style={{ width: '100%', padding: '15px', fontSize: 16, borderRadius: 10, minHeight: 52, textDecoration: 'none', justifyContent: 'center' }}
+              style={{ width: '100%', padding: '15px', fontSize: 15.5, borderRadius: 10, minHeight: 52, textDecoration: 'none', justifyContent: 'center' }}
             >
               <Phone size={16} /> Call Now — {PHONE}
             </a>
           </div>
 
-          {/* Trust row */}
+          {/* Trust */}
           <div style={{
-            display: 'flex', gap: 18, flexWrap: 'wrap',
+            display: 'flex', gap: 16, flexWrap: 'wrap',
             animation: 'fadeInUp 0.45s ease 0.32s both',
           }}>
             {TRUST.map(({ icon: Icon, label }) => (
               <div key={label} style={{
                 display: 'flex', alignItems: 'center', gap: 6,
-                fontSize: 12, fontWeight: 500, color: 'rgba(148,175,210,0.75)',
+                fontSize: 12, fontWeight: 500, color: 'rgba(148,175,210,0.72)',
               }}>
-                <Icon size={13} color="rgba(59,130,246,0.8)" strokeWidth={2} />
+                <Icon size={13} color="#3B82F6" strokeWidth={2} />
                 {label}
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── Image block ── */}
+        {/* ── Image ── */}
         <div style={{
           position: 'relative',
-          flex: 1,
-          margin: '0 16px',
-          borderRadius: '18px 18px 0 0',
+          flex: 1, minHeight: 260,
+          margin: '0 14px',
+          borderRadius: '16px 16px 0 0',
           overflow: 'hidden',
-          minHeight: 240,
-          animation: 'fadeIn 0.55s ease 0.3s both',
+          animation: 'fadeIn 0.5s ease 0.28s both',
         }}>
-          {/* Poster */}
+          {/* Poster — always visible underneath */}
           <img
             src={VIDEO_POSTER} alt="Professional plumber at work"
             style={{
               position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: '70% top',
-              opacity: videoReady ? 0 : 1, transition: 'opacity 0.8s ease',
-              filter: 'brightness(0.65) saturate(0.9)',
+              objectFit: 'cover', objectPosition: '65% top',
+              opacity: 1,
+              filter: 'brightness(0.62) saturate(0.88)',
             }}
           />
           {/* Video */}
@@ -433,22 +442,22 @@ export default function Hero() {
             onCanPlay={() => setVideoReady(true)}
             style={{
               position: 'absolute', inset: 0, width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: '70% top',
-              opacity: videoReady ? 1 : 0, transition: 'opacity 0.8s ease',
-              filter: 'brightness(0.65) saturate(1.05)',
+              objectFit: 'cover', objectPosition: '65% top',
+              opacity: videoReady ? 1 : 0, transition: 'opacity 0.6s ease', zIndex: 2,
+              filter: 'brightness(0.62) saturate(1.05)',
             }}
           >
             <source src={VIDEO_SRC} type="video/mp4" />
           </video>
 
-          {/* Top fade to match section bg */}
+          {/* Top fade */}
           <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0, height: '30%',
+            position: 'absolute', top: 0, left: 0, right: 0, height: '28%',
             background: 'linear-gradient(to bottom, #0C1829, transparent)',
             zIndex: 2, pointerEvents: 'none',
           }} />
 
-          {/* Mute btn */}
+          {/* Mute */}
           <button
             onClick={toggleMute}
             aria-label={muted ? 'Unmute video' : 'Mute video'}
@@ -465,42 +474,48 @@ export default function Hero() {
             {muted ? <VolumeX size={14} /> : <Volume2 size={14} />}
           </button>
 
-          {/* Rating panel — bottom of image */}
+          {/* Mobile review panel — bottom of image, full-width */}
           <div style={{
-            position: 'absolute', bottom: 14, left: 14, zIndex: 10,
-            background: 'rgba(8,16,32,0.75)',
-            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 12, padding: '10px 14px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+            position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
+            background: 'linear-gradient(to top, rgba(7,14,30,0.92) 0%, rgba(7,14,30,0.7) 70%, transparent 100%)',
+            padding: '32px 16px 16px',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {/* Mini avatars */}
-              <div style={{ display: 'flex', flexShrink: 0 }}>
-                {AVATARS.slice(0, 3).map((init, i) => (
-                  <div key={init} style={{
-                    width: 22, height: 22, borderRadius: '50%',
-                    background: AVATAR_COLORS[i],
-                    border: '1.5px solid rgba(8,16,32,0.8)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 7.5, fontWeight: 700, color: '#fff',
-                    marginLeft: i === 0 ? 0 : -6,
-                    position: 'relative', zIndex: 3 - i,
-                  }}>
-                    {init}
-                  </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              {/* Avatars */}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {AVATAR_PHOTOS.slice(0, 3).map((src, i) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`Customer ${i + 1}`}
+                    loading="lazy"
+                    style={{
+                      width: 32, height: 32, borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '2px solid rgba(7,14,30,0.9)',
+                      marginLeft: i === 0 ? 0 : -8,
+                      position: 'relative', zIndex: 3 - i,
+                    }}
+                  />
                 ))}
+                <div style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: 'rgba(37,99,235,0.3)',
+                  border: '2px solid rgba(7,14,30,0.9)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginLeft: -8, fontSize: 9, fontWeight: 700, color: '#93C5FD',
+                }}>2k+</div>
               </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                  <span style={{ fontSize: 13, fontWeight: 800, color: '#F1F5F9' }}>4.9</span>
-                  <div style={{ display: 'flex', gap: 1 }}>
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={9} color="#F59E0B" fill="#F59E0B" />
-                    ))}
+
+              {/* Stars + number */}
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, justifyContent: 'flex-end', marginBottom: 2 }}>
+                  <span style={{ fontSize: 22, fontWeight: 800, color: '#F1F5F9', letterSpacing: '-0.5px', lineHeight: 1 }}>4.9</span>
+                  <div style={{ display: 'flex', gap: 1.5 }}>
+                    {[...Array(5)].map((_, i) => <Star key={i} size={11} color="#F59E0B" fill="#F59E0B" />)}
                   </div>
                 </div>
-                <p style={{ fontSize: 10, color: 'rgba(148,175,210,0.7)', marginTop: 1 }}>
+                <p style={{ fontSize: 10.5, color: 'rgba(148,175,210,0.7)', fontWeight: 500 }}>
                   700+ Reviews · 2,000+ customers
                 </p>
               </div>

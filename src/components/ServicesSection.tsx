@@ -202,7 +202,7 @@ export default function ServicesSection() {
                   }}>
                     <button
                       onClick={e => { e.stopPropagation(); goTo('#contact'); }}
-                      className="btn btn-cta-red"
+                      className="btn btn-slate"
                       style={{ flex: 1, padding: '9px 12px', fontSize: 11.5, borderRadius: 7, justifyContent: 'center' }}
                     >
                       Book Service
@@ -211,7 +211,7 @@ export default function ServicesSection() {
                       <a
                         href={PHONE_HREF}
                         onClick={e => e.stopPropagation()}
-                        className="btn btn-cta-green"
+                        className="btn btn-call"
                         style={{ flex: 1, padding: '9px 12px', fontSize: 11.5, borderRadius: 7, textDecoration: 'none', justifyContent: 'center' }}
                       >
                         <Phone size={11} /> Call Now

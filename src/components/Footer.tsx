@@ -11,12 +11,11 @@ const SERVICE_LINKS = [
 ];
 
 const COMPANY_LINKS = [
-  { label: 'About Us',        id: '#about'        },
-  { label: 'Our Services',    id: '#services'     },
-  { label: 'Project Gallery', id: '#gallery'      },
-  { label: 'Service Area',    id: '#service-area' },
-  { label: 'Reviews',         id: '#reviews'      },
-  { label: 'Contact Us',      id: '#contact'      },
+  { label: 'About Us',     id: '#about'        },
+  { label: 'Our Services', id: '#services'     },
+  { label: 'Our Team',     id: '#team'         },
+  { label: 'Service Area', id: '#service-area' },
+  { label: 'Contact Us',   id: '#contact'      },
 ];
 
 function goTo(id: string) {
@@ -33,37 +32,6 @@ const lnk: React.CSSProperties = {
 export default function Footer() {
   return (
     <footer style={{ background: '#0F1923', color: '#fff' }}>
-
-      {/* ── CTA strip ── */}
-      <div style={{
-        background: '#1E2D45',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-      }}>
-        <div style={{
-          maxWidth: 1200, margin: '0 auto', padding: '44px 32px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          gap: 24, flexWrap: 'wrap',
-        }}>
-          <div>
-            <p style={{ fontSize: 21, fontWeight: 800, color: '#fff', marginBottom: 5, letterSpacing: '-0.4px' }}>
-              Need a plumber today?
-            </p>
-            <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.45)' }}>
-              We're ready to help. Call now or send us a message.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <a href={PHONE_HREF} className="btn btn-slate"
-              style={{ padding: '12px 24px', fontSize: 13.5, textDecoration: 'none', borderRadius: 7 }}>
-              <Phone size={14} /> Call {PHONE}
-            </a>
-            <button onClick={() => goTo('#contact')} className="btn btn-ghost"
-              style={{ padding: '12px 24px', fontSize: 13.5, borderRadius: 7 }}>
-              Book a Service
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* ── Main columns ── */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '60px 32px 50px' }}>
@@ -86,7 +54,7 @@ export default function Footer() {
             <p style={{ fontSize: 13, color: '#4A5A6E', lineHeight: 1.75, maxWidth: 230, marginBottom: 20 }}>
               Reliable plumbing and drain services for homes and businesses. Available 24/7.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
               {[
                 { Icon: Phone, href: PHONE_HREF, text: PHONE },
                 { Icon: Mail,  href: 'mailto:service@flowrightplumbing.com', text: 'service@flowrightplumbing.com' },
@@ -106,6 +74,52 @@ export default function Footer() {
                 <MapPin size={12} color="#6B8CAE" style={{ flexShrink: 0, marginTop: 2 }} />
                 Your City, State [Replace]
               </div>
+            </div>
+
+            {/* Social links */}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <a
+                href="https://www.linkedin.com/company/flowrightplumbing"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="FlowRight Plumbing on LinkedIn"
+                style={{
+                  width: 36, height: 36, borderRadius: 8,
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#6B8CAE', textDecoration: 'none',
+                  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+                }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#0A66C2'; el.style.color = '#fff'; el.style.borderColor = '#0A66C2'; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.06)'; el.style.color = '#6B8CAE'; el.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect x="2" y="9" width="4" height="12"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
+              </a>
+              <a
+                href="https://www.facebook.com/flowrightplumbing"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="FlowRight Plumbing on Facebook"
+                style={{
+                  width: 36, height: 36, borderRadius: 8,
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#6B8CAE', textDecoration: 'none',
+                  transition: 'background 0.15s, color 0.15s, border-color 0.15s',
+                }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#1877F2'; el.style.color = '#fff'; el.style.borderColor = '#1877F2'; }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.06)'; el.style.color = '#6B8CAE'; el.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
             </div>
           </div>
 
