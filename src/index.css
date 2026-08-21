@@ -55,8 +55,6 @@ body > #root {
 @media (max-width: 860px) {
   .hero-desktop { display: none !important; }
   .hero-mobile  { display: flex !important; }
-  .hero-search-wrap { padding: 0 12px !important; }
-  .search-form { grid-template-columns: 1fr !important; gap: 10px !important; }
 }
 
 @media (min-width: 861px) and (max-width: 1100px) {
