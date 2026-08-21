@@ -46,8 +46,8 @@ export default function WhyUsSection() {
           <div style={{ position: 'relative' }}>
             <div style={{ borderRadius: 12, overflow: 'hidden', boxShadow: '0 12px 40px rgba(30,45,69,0.14)' }}>
               <img
-                src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80&auto=format&fit=crop"
-                alt="FlowRight plumber at work"
+                src="https://images.unsplash.com/photo-1542013936693-884638332954?w=800&q=80&auto=format&fit=crop"
+                alt="Plumber working on residential pipe installation"
                 style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
                 loading="lazy"
               />

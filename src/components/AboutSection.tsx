@@ -27,8 +27,8 @@ export default function AboutSection() {
           <div style={{ position: 'relative' }}>
             <div style={{ borderRadius: 12, overflow: 'hidden', boxShadow: '0 12px 40px rgba(30,45,69,0.14)' }}>
               <img
-                src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80&auto=format&fit=crop"
-                alt="FlowRight plumber at work"
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop"
+                alt="FlowRight plumber fixing a water leak"
                 style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }}
                 loading="lazy"
               />
@@ -51,8 +51,8 @@ export default function AboutSection() {
               overflow: 'hidden',
             }} className="inset-img">
               <img
-                src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=400&q=80&auto=format&fit=crop"
-                alt=""
+                src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=400&q=80&auto=format&fit=crop"
+                alt="Plumber inspecting pipe connections"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 loading="lazy"
               />

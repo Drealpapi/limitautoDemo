@@ -33,8 +33,41 @@ body {
 ::selection { background: #D1DCF0; color: #1E2D45; }
 
 /* ─────────────────────────────────────────────
-   BUTTON SYSTEM — 3D glass / iOS-inspired
+   HERO — force dark bg immediately on load,
+   prevent white flash, control layout visibility
 ───────────────────────────────────────────── */
+
+/* Kill any white flash — the hero section and body behind it must be dark */
+html, body {
+  background: #0a1628;
+}
+
+/* Once sections below hero load, body returns to white */
+body > #root {
+  background: #fff;
+}
+
+/* Hero layout visibility — defined here so it applies
+   before React's injected <style> tags, preventing flash */
+.hero-desktop { display: grid !important; }
+.hero-mobile  { display: none !important; }
+
+@media (max-width: 860px) {
+  .hero-desktop { display: none !important; }
+  .hero-mobile  { display: flex !important; }
+  .hero-search-wrap { padding: 0 12px !important; }
+  .search-form { grid-template-columns: 1fr !important; gap: 10px !important; }
+}
+
+@media (min-width: 861px) and (max-width: 1100px) {
+  .hero-desktop { grid-template-columns: 46% 54% !important; }
+}
+@media (min-width: 1101px) and (max-width: 1400px) {
+  .hero-desktop { grid-template-columns: 43% 57% !important; }
+}
+@media (min-width: 1401px) {
+  .hero-desktop { grid-template-columns: 40% 60% !important; }
+}
 .btn {
   display: inline-flex;
   align-items: center;

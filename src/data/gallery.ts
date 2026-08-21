@@ -15,7 +15,7 @@ export const galleryItems: GalleryItem[] = [
   {
     id: 'g2',
     category: 'Kitchen',
-    title: 'Kitchen Sink & Disposal Install',
+    title: 'Kitchen Sink & Faucet Install',
     image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&auto=format&fit=crop',
   },
   {
@@ -28,7 +28,7 @@ export const galleryItems: GalleryItem[] = [
     id: 'g4',
     category: 'Pipe Repair',
     title: 'Copper Repiping — Residential',
-    image: 'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=700&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1542013936693-884638332954?w=700&q=80&auto=format&fit=crop',
   },
   {
     id: 'g5',
@@ -39,8 +39,8 @@ export const galleryItems: GalleryItem[] = [
   {
     id: 'g6',
     category: 'Commercial',
-    title: 'Commercial Building Fit-Out',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80&auto=format&fit=crop',
+    title: 'Commercial Plumbing Installation',
+    image: 'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=700&q=80&auto=format&fit=crop',
   },
 ];
 

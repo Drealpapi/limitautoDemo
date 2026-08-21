@@ -5,7 +5,7 @@ const PHONE      = '(555) 123-4567';
 const PHONE_HREF = 'tel:+15551234567';
 const VIDEO_SRC  = '/hero.mp4';
 const VIDEO_POSTER =
-  'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1200&q=85&auto=format&fit=crop';
+  'https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=1200&q=85&auto=format&fit=crop';
 
 function goTo(a: string) {
   const el = document.querySelector(a);
@@ -749,48 +749,6 @@ export default function Hero() {
           </div>
         </div>
       </section>
-
-      {/* ═══ Responsive CSS ═══ */}
-      <style>{`
-        /* Desktop: two-column, hide mobile stack */
-        .hero-desktop { display: grid; }
-        .hero-mobile  { display: none !important; }
-
-        /* Ensure dark background bleeds through fully */
-        section[aria-label="Hero"] {
-          background: #0a1628 !important;
-        }
-
-        @media (max-width: 860px) {
-          .hero-desktop { display: none !important; }
-          .hero-mobile  { display: flex !important; }
-
-          .hero-search-wrap { padding: 0 12px !important; }
-          .search-form { grid-template-columns: 1fr !important; gap: 10px !important; }
-
-          section[aria-label="Hero"] {
-            min-height: auto !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-mobile > div:first-child {
-            padding: 28px 18px 20px !important;
-          }
-        }
-
-        @media (min-width: 861px) and (max-width: 1100px) {
-          .hero-desktop { grid-template-columns: 46% 54% !important; }
-        }
-
-        @media (min-width: 1101px) and (max-width: 1400px) {
-          .hero-desktop { grid-template-columns: 43% 57% !important; }
-        }
-
-        @media (min-width: 1401px) {
-          .hero-desktop { grid-template-columns: 40% 60% !important; }
-        }
-      `}</style>
     </>
   );
 }
